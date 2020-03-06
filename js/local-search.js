@@ -270,7 +270,7 @@ window.addEventListener('DOMContentLoaded', () => {
   // Search function
   const searchFunc = () => {
     document.querySelector('.search-pop-overlay').style.display = '';
-    document.querySelector('.search-pop-overlay').innerHTML = '<div class="search-loading-icon"><i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i></div>';
+    document.querySelector('.search-pop-overlay').innerHTML = '<div class="search-loading-icon"><i class="fa fa-circle-o-notch fa-spin fa-5x fa-fw margin-bottom"></i></div>';
     fetchData(proceedSearch);
   };
 

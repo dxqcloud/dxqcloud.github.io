@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/cloud.png">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=EB Garamond:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"yoursite.com","root":"/","scheme":"Pisces","version":"7.7.2","exturl":false,"sidebar":{"position":"left","display":"hide","padding":10,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":true},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"./public/search.xml"};
+  </script>
+
+  <meta name="description" content="本文由 简悦 SimpRead 转码， 原文地址 https:&#x2F;&#x2F;www.cnblogs.com&#x2F;dolphin0520&#x2F;p&#x2F;3916526.html  　　也许很多朋友在学习 NIO 的时候都会感觉有点吃力，对里面的很多概念都感觉不是那么明朗。在进入 Java NIO 编程之前，我们今天先来讨论一些比较基础的知识：I&#x2F;O 模型。下面本文先从同步和异步的概念 说起，然后接着阐述了阻塞和非阻塞的区">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java&#x2F;Java_IO模型">
+<meta property="og:url" content="http://yoursite.com/2020/03/06/Java/Java_IO%E6%A8%A1%E5%9E%8B/index.html">
+<meta property="og:site_name" content="欢迎来到我的博客！">
+<meta property="og:description" content="本文由 简悦 SimpRead 转码， 原文地址 https:&#x2F;&#x2F;www.cnblogs.com&#x2F;dolphin0520&#x2F;p&#x2F;3916526.html  　　也许很多朋友在学习 NIO 的时候都会感觉有点吃力，对里面的很多概念都感觉不是那么明朗。在进入 Java NIO 编程之前，我们今天先来讨论一些比较基础的知识：I&#x2F;O 模型。下面本文先从同步和异步的概念 说起，然后接着阐述了阻塞和非阻塞的区">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://images0.cnblogs.com/i/288799/201408/172148504055625.jpg">
+<meta property="og:image" content="https://images0.cnblogs.com/i/288799/201408/180940159566985.jpg">
+<meta property="article:published_time" content="2020-03-06T10:52:57.122Z">
+<meta property="article:modified_time" content="2019-10-28T12:21:47.582Z">
+<meta property="article:author" content="DXQ">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://images0.cnblogs.com/i/288799/201408/172148504055625.jpg">
+
+<link rel="canonical" href="http://yoursite.com/2020/03/06/Java/Java_IO%E6%A8%A1%E5%9E%8B/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true
+  };
+</script>
+
+<!-- jquery -->
+
+<script src="https://code.jquery.com/jquery-2.1.3.min.js"></script>
+  <title>Java/Java_IO模型 | 欢迎来到我的博客！</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">欢迎来到我的博客！</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/03/06/Java/Java_IO%E6%A8%A1%E5%9E%8B/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="DXQ">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="欢迎来到我的博客！">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Java/Java_IO模型
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-03-06 18:52:57" itemprop="dateCreated datePublished" datetime="2020-03-06T18:52:57+08:00">2020-03-06</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2019-10-28 20:21:47" itemprop="dateModified" datetime="2019-10-28T20:21:47+08:00">2019-10-28</time>
+              </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>6.9k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>6 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <blockquote>
+<p>本文由 <a href="http://ksria.com/simpread/" target="_blank" rel="noopener">简悦 SimpRead</a> 转码， 原文地址 <a href="https://www.cnblogs.com/dolphin0520/p/3916526.html" target="_blank" rel="noopener">https://www.cnblogs.com/dolphin0520/p/3916526.html</a></p>
+</blockquote>
+<p>　　也许很多朋友在学习 NIO 的时候都会感觉有点吃力，对里面的很多概念都感觉不是那么明朗。在进入 Java NIO 编程之前，我们今天先来讨论一些比较基础的知识：I/O 模型。下面本文先从同步和异步的概念 说起，然后接着阐述了阻塞和非阻塞的区别，接着介绍了阻塞 IO 和非阻塞 IO 的区别，然后介绍了同步 IO 和异步 IO 的区别，接下来介绍了 5 种 IO 模型，最后介绍了两种和高性能 IO 设计相关的设计模式（Reactor 和 Proactor）。</p>
+<p>　　以下是本文的目录大纲：</p>
+<p>　　一. 什么是同步？什么是异步？</p>
+<p>　　二. 什么是阻塞？什么是非阻塞？</p>
+<p>　　三. 什么是阻塞 IO？什么是非阻塞 IO？</p>
+<p>　　四. 什么是同步 IO？什么是异步 IO？</p>
+<p>　　五. 五种 IO 模型</p>
+<p>　　六. 两种高性能 IO 设计模式</p>
+<p>　　若有不正之处，请多多谅解并欢迎批评指正。</p>
+<p>　　请尊重作者劳动成果，转载请标明原文链接：</p>
+<p> 　　<a href="http://www.cnblogs.com/dolphin0520/p/3916526.html" target="_blank" rel="noopener">http://www.cnblogs.com/dolphin0520/p/3916526.html</a></p>
+<h2><span id="yi-shi-me-shi-tong-bu-shi-me-shi-yi-bu">一. 什么是同步？什么是异步？</span><a href="#yi-shi-me-shi-tong-bu-shi-me-shi-yi-bu" class="header-anchor">#</a></h2><p>　　同步和异步的概念出来已经很久了，网上有关同步和异步的说法也有很多。以下是我个人的理解：</p>
+<p>　　同步就是：如果有多个任务或者事件要发生，这些任务或者事件必须逐个地进行，一个事件或者任务的执行会导致整个流程的暂时等待，这些事件没有办法并发地执行；</p>
+<p>　　异步就是：如果有多个任务或者事件发生，这些事件可以并发地执行，一个事件或者任务的执行不会导致整个流程的暂时等待。</p>
+<p>　　这就是同步和异步。举个简单的例子，假如有一个任务包括两个子任务 A 和 B，对于同步来说，当 A 在执行的过程中，B 只有等待，直至 A 执行完毕，B 才能执行；而对于异步就是 A 和 B 可以并发地执行，B 不必等待 A 执行完毕之后再执行，这样就不会由于 A 的执行导致整个任务的暂时等待。</p>
+<p>　　如果还不理解，可以先看下面这 2 段代码：</p>
+<p><a href="#">?</a></p>
+<p>| 1234567891011121314 | <code>void</code> <code>fun1() {</code> <code>}</code> <code>void</code> <code>fun2() {</code> <code>}</code> <code>void</code> <code>function(){``fun1();``fun2()``.....``.....``}</code> |</p>
+<p> 　　这段代码就是典型的同步，在方法 function 中，fun1 在执行的过程中会导致后续的 fun2 无法执行，fun2 必须等待 fun1 执行完毕才可以执行。</p>
+<p>　　接着看下面这段代码：</p>
+<p><a href="#">?</a></p>
+<p>| 123456789101112131415161718192021222324 | <code>void</code> <code>fun1() {</code> <code>}</code> <code>void</code> <code>fun2() {</code> <code>}</code> <code>void</code> <code>function(){``new</code> <code>Thread(){``public</code> <code>void</code> <code>run() {``fun1();``}``}.start();</code> <code>new</code> <code>Thread(){``public</code> <code>void</code> <code>run() {``fun2();``}``}.start();</code> <code>.....``.....``}</code> |</p>
+<p> 　　这段代码是一种典型的异步，fun1 的执行不会影响到 fun2 的执行，并且 fun1 和 fun2 的执行不会导致其后续的执行过程处于暂时的等待。</p>
+<p>　　事实上，同步和异步是一个非常广的概念，它们的重点在于多个任务和事件发生时，一个事件的发生或执行是否会导致整个流程的暂时等待。我觉得可以将同步和异步与 Java 中的 synchronized 关键字联系起来进行类比。当多个线程同时访问一个变量时，每个线程访问该变量就是一个事件，对于同步来说，就是这些线程必须逐个地来访问该变量，一个线程在访问该变量的过程中，其他线程必须等待；而对于异步来说，就是多个线程不必逐个地访问该变量，可以同时进行访问。</p>
+<p>　　因此，个人觉得同步和异步可以表现在很多方面，但是记住其关键在于多个任务和事件发生时，一个事件的发生或执行是否会导致整个流程的暂时等待。一般来说，可以通过多线程的方式来实现异步，但是千万记住不要将多线程和异步画上等号，异步只是宏观上的一个模式，采用多线程来实现异步只是一种手段，并且通过多进程的方式也可以实现异步。</p>
+<h2><span id="er-shi-me-shi-zu-sai-shi-me-shi-fei-zu-sai">二. 什么是阻塞？什么是非阻塞？</span><a href="#er-shi-me-shi-zu-sai-shi-me-shi-fei-zu-sai" class="header-anchor">#</a></h2><p>　　在前面介绍了同步和异步的区别，这一节来看一下阻塞和非阻塞的区别。</p>
+<p>　　阻塞就是：当某个事件或者任务在执行过程中，它发出一个请求操作，但是由于该请求操作需要的条件不满足，那么就会一直在那等待，直至条件满足；</p>
+<p>　　非阻塞就是：当某个事件或者任务在执行过程中，它发出一个请求操作，如果该请求操作需要的条件不满足，会立即返回一个标志信息告知条件不满足，不会一直在那等待。</p>
+<p>　　这就是阻塞和非阻塞的区别。也就是说阻塞和非阻塞的区别关键在于当发出请求一个操作时，如果条件不满足，是会一直等待还是返回一个标志信息。</p>
+<p>　　举个简单的例子：</p>
+<p>　　假如我要读取一个文件中的内容，如果此时文件中没有内容可读，对于同步来说就是会一直在那等待，直至文件中有内容可读；而对于非阻塞来说，就会直接返回一个标志信息告知文件中暂时无内容可读。</p>
+<p>　　在网上有一些朋友将同步和异步分别与阻塞和非阻塞画上等号，事实上，它们是两组完全不同的概念。注意，理解这两组概念的区别对于后面 IO 模型的理解非常重要。</p>
+<p>　　同步和异步着重点在于多个任务的执行过程中，一个任务的执行是否会导致整个流程的暂时等待；</p>
+<p>　　而阻塞和非阻塞着重点在于发出一个请求操作时，如果进行操作的条件不满足是否会返会一个标志信息告知条件不满足。</p>
+<p>　　理解阻塞和非阻塞可以同线程阻塞类比地理解，当一个线程进行一个请求操作时，如果条件不满足，则会被阻塞，即在那等待条件满足。</p>
+<h2><span id="san-shi-me-shi-zu-sai-io-shi-me-shi-fei-zu-sai-io">三. 什么是阻塞 IO？什么是非阻塞 IO？</span><a href="#san-shi-me-shi-zu-sai-io-shi-me-shi-fei-zu-sai-io" class="header-anchor">#</a></h2><p>　　在了解阻塞 IO 和非阻塞 IO 之前，先看下一个具体的 IO 操作过程是怎么进行的。</p>
+<p>　　通常来说，IO 操作包括：对硬盘的读写、对 socket 的读写以及外设的读写。</p>
+<p>　　当用户线程发起一个 IO 请求操作（本文以读请求操作为例），内核会去查看要读取的数据是否就绪，对于阻塞 IO 来说，如果数据没有就绪，则会一直在那等待，直到数据就绪；对于非阻塞 IO 来说，如果数据没有就绪，则会返回一个标志信息告知用户线程当前要读的数据没有就绪。当数据就绪之后，便将数据拷贝到用户线程，这样才完成了一个完整的 IO 读请求操作，也就是说一个完整的 IO 读请求操作包括两个阶段：</p>
+<p>　　1）查看数据是否就绪；</p>
+<p>　　2）进行数据拷贝（内核将数据拷贝到用户线程）。</p>
+<p>　　那么阻塞（blocking IO）和非阻塞（non-blocking IO）的区别就在于第一个阶段，如果数据没有就绪，在查看数据是否就绪的过程中是一直等待，还是直接返回一个标志信息。</p>
+<p>　　Java 中传统的 IO 都是阻塞 IO，比如通过 socket 来读数据，调用 read() 方法之后，如果数据没有就绪，当前线程就会一直阻塞在 read 方法调用那里，直到有数据才返回；而如果是非阻塞 IO 的话，当数据没有就绪，read() 方法应该返回一个标志信息，告知当前线程数据没有就绪，而不是一直在那里等待。</p>
+<h2><span id="si-shi-me-shi-tong-bu-io-shi-me-shi-yi-bu-io">四. 什么是同步 IO？什么是异步 IO？</span><a href="#si-shi-me-shi-tong-bu-io-shi-me-shi-yi-bu-io" class="header-anchor">#</a></h2><p>　　我们先来看一下同步 IO 和异步 IO 的定义，在《Unix 网络编程》一书中对同步 IO 和异步 IO 的定义是这样的：</p>
+<p>　　<strong>A synchronous I/O operation causes the requesting process to be blocked until that I/O operation completes.</strong><br>　　<strong>An asynchronous I/O operation does not cause the requesting process to be blocked.</strong></p>
+<p>　　从字面的意思可以看出：同步 IO 即 如果一个线程请求进行 IO 操作，在 IO 操作完成之前，该线程会被阻塞；</p>
+<p>　　而异步 IO 为 如果一个线程请求进行 IO 操作，IO 操作不会导致请求线程被阻塞。</p>
+<p>　　事实上，同步 IO 和异步 IO 模型是针对用户线程和内核的交互来说的：</p>
+<p>　　对于同步 IO：当用户发出 IO 请求操作之后，如果数据没有就绪，需要通过用户线程或者内核不断地去轮询数据是否就绪，当数据就绪时，再将数据从内核拷贝到用户线程；</p>
+<p>　　而异步 IO：只有 IO 请求操作的发出是由用户线程来进行的，IO 操作的两个阶段都是由内核自动完成，然后发送通知告知用户线程 IO 操作已经完成。也就是说在异步 IO 中，不会对用户线程产生任何阻塞。</p>
+<p>　　这是同步 IO 和异步 IO 关键区别所在，同步 IO 和异步 IO 的关键区别反映在数据拷贝阶段是由用户线程完成还是内核完成。所以说异步 IO 必须要有操作系统的底层支持。</p>
+<p>　　注意同步 IO 和异步 IO 与阻塞 IO 和非阻塞 IO 是不同的两组概念。</p>
+<p>　　阻塞 IO 和非阻塞 IO 是反映在当用户请求 IO 操作时，如果数据没有就绪，是用户线程一直等待数据就绪，还是会收到一个标志信息这一点上面的。也就是说，阻塞 IO 和非阻塞 IO 是反映在 IO 操作的第一个阶段，在查看数据是否就绪时是如何处理的。</p>
+<h2><span id="wu-wu-chong-io-mo-xing">五. 五种 IO 模型</span><a href="#wu-wu-chong-io-mo-xing" class="header-anchor">#</a></h2><p>　　在《Unix 网络编程》一书中提到了五种 IO 模型，分别是：阻塞 IO、非阻塞 IO、多路复用 IO、信号驱动 IO 以及异步 IO。</p>
+<p>　　下面就分别来介绍一下这 5 种 IO 模型的异同。</p>
+<p>1. 阻塞 IO 模型</p>
+<p>　　最传统的一种 IO 模型，即在读写数据过程中会发生阻塞现象。</p>
+<p>　　当用户线程发出 IO 请求之后，内核会去查看数据是否就绪，如果没有就绪就会等待数据就绪，而用户线程就会处于阻塞状态，用户线程交出 CPU。当数据就绪之后，内核会将数据拷贝到用户线程，并返回结果给用户线程，用户线程才解除 block 状态。</p>
+<p>　　典型的阻塞 IO 模型的例子为：</p>
+<p><a href="#">?</a></p>
+<p>| 1 | <code>data = socket.read();</code> |</p>
+<p> 　　如果数据没有就绪，就会一直阻塞在 read 方法。</p>
+<p>2. 非阻塞 IO 模型</p>
+<p>　　当用户线程发起一个 read 操作后，并不需要等待，而是马上就得到了一个结果。如果结果是一个 error 时，它就知道数据还没有准备好，于是它可以再次发送 read 操作。一旦内核中的数据准备好了，并且又再次收到了用户线程的请求，那么它马上就将数据拷贝到了用户线程，然后返回。</p>
+<p>　　所以事实上，在非阻塞 IO 模型中，用户线程需要不断地询问内核数据是否就绪，也就说非阻塞 IO 不会交出 CPU，而会一直占用 CPU。</p>
+<p>　　典型的非阻塞 IO 模型一般如下：</p>
+<p><a href="#">?</a></p>
+<p>| 1234567 | <code>while``(``true``){``data = socket.read();``if``(data!= error){``处理数据``break``;``}``}</code> |</p>
+<p> 　　但是对于非阻塞 IO 就有一个非常严重的问题，在 while 循环中需要不断地去询问内核数据是否就绪，这样会导致 CPU 占用率非常高，因此一般情况下很少使用 while 循环这种方式来读取数据。</p>
+<p>3. 多路复用 IO 模型</p>
+<p>　　多路复用 IO 模型是目前使用得比较多的模型。Java NIO 实际上就是多路复用 IO。</p>
+<p>　　在多路复用 IO 模型中，会有一个线程不断去轮询多个 socket 的状态，只有当 socket 真正有读写事件时，才真正调用实际的 IO 读写操作。因为在多路复用 IO 模型中，只需要使用一个线程就可以管理多个 socket，系统不需要建立新的进程或者线程，也不必维护这些线程和进程，并且只有在真正有 socket 读写事件进行时，才会使用 IO 资源，所以它大大减少了资源占用。</p>
+<p>　　在 Java NIO 中，是通过 selector.select() 去查询每个通道是否有到达事件，如果没有事件，则一直阻塞在那里，因此这种方式会导致用户线程的阻塞。</p>
+<p>　　也许有朋友会说，我可以采用 多线程 + 阻塞 IO 达到类似的效果，但是由于在多线程 + 阻塞 IO 中，每个 socket 对应一个线程，这样会造成很大的资源占用，并且尤其是对于长连接来说，线程的资源一直不会释放，如果后面陆续有很多连接的话，就会造成性能上的瓶颈。</p>
+<p>　　而多路复用 IO 模式，通过一个线程就可以管理多个 socket，只有当 socket 真正有读写事件发生才会占用资源来进行实际的读写操作。因此，多路复用 IO 比较适合连接数比较多的情况。</p>
+<p>　　另外多路复用 IO 为何比非阻塞 IO 模型的效率高是因为在非阻塞 IO 中，不断地询问 socket 状态时通过用户线程去进行的，而在多路复用 IO 中，轮询每个 socket 状态是内核在进行的，这个效率要比用户线程要高的多。</p>
+<p>　　不过要注意的是，多路复用 IO 模型是通过轮询的方式来检测是否有事件到达，并且对到达的事件逐一进行响应。因此对于多路复用 IO 模型来说，一旦事件响应体很大，那么就会导致后续的事件迟迟得不到处理，并且会影响新的事件轮询。</p>
+<p>4. 信号驱动 IO 模型</p>
+<p>　　在信号驱动 IO 模型中，当用户线程发起一个 IO 请求操作，会给对应的 socket 注册一个信号函数，然后用户线程会继续执行，当内核数据就绪时会发送一个信号给用户线程，用户线程接收到信号之后，便在信号函数中调用 IO 读写操作来进行实际的 IO 请求操作。</p>
+<p>5. 异步 IO 模型</p>
+<p>　　异步 IO 模型才是最理想的 IO 模型，在异步 IO 模型中，当用户线程发起 read 操作之后，立刻就可以开始去做其它的事。而另一方面，从内核的角度，当它受到一个 asynchronous read 之后，它会立刻返回，说明 read 请求已经成功发起了，因此不会对用户线程产生任何 block。然后，内核会等待数据准备完成，然后将数据拷贝到用户线程，当这一切都完成之后，内核会给用户线程发送一个信号，告诉它 read 操作完成了。也就说用户线程完全不需要实际的整个 IO 操作是如何进行的，只需要先发起一个请求，当接收内核返回的成功信号时表示 IO 操作已经完成，可以直接去使用数据了。</p>
+<p>　　也就说在异步 IO 模型中，IO 操作的两个阶段都不会阻塞用户线程，这两个阶段都是由内核自动完成，然后发送一个信号告知用户线程操作已完成。用户线程中不需要再次调用 IO 函数进行具体的读写。这点是和信号驱动模型有所不同的，在信号驱动模型中，当用户线程接收到信号表示数据已经就绪，然后需要用户线程调用 IO 函数进行实际的读写操作；而在异步 IO 模型中，收到信号表示 IO 操作已经完成，不需要再在用户线程中调用 iO 函数进行实际的读写操作。</p>
+<p>　　注意，异步 IO 是需要操作系统的底层支持，在 Java 7 中，提供了 Asynchronous IO。</p>
+<p>　　前面四种 IO 模型实际上都属于同步 IO，只有最后一种是真正的异步 IO，因为无论是多路复用 IO 还是信号驱动模型，IO 操作的第 2 个阶段都会引起用户线程阻塞，也就是内核进行数据拷贝的过程都会让用户线程阻塞。</p>
+<h2><span id="liu-liang-chong-gao-xing-neng-io-she-ji-mo-shi">六. 两种高性能 IO 设计模式</span><a href="#liu-liang-chong-gao-xing-neng-io-she-ji-mo-shi" class="header-anchor">#</a></h2><p>　　在传统的网络服务设计模式中，有两种比较经典的模式：</p>
+<p>　　一种是 多线程，一种是线程池。</p>
+<p>　　对于多线程模式，也就说来了 client，服务器就会新建一个线程来处理该 client 的读写事件，如下图所示：</p>
+<p><img src="https://images0.cnblogs.com/i/288799/201408/172148504055625.jpg" alt></p>
+<p>　　这种模式虽然处理起来简单方便，但是由于服务器为每个 client 的连接都采用一个线程去处理，使得资源占用非常大。因此，当连接数量达到上限时，再有用户请求连接，直接会导致资源瓶颈，严重的可能会直接导致服务器崩溃。</p>
+<p>　　因此，为了解决这种一个线程对应一个客户端模式带来的问题，提出了采用线程池的方式，也就说创建一个固定大小的线程池，来一个客户端，就从线程池取一个空闲线程来处理，当客户端处理完读写操作之后，就交出对线程的占用。因此这样就避免为每一个客户端都要创建线程带来的资源浪费，使得线程可以重用。</p>
+<p>　　但是线程池也有它的弊端，如果连接大多是长连接，因此可能会导致在一段时间内，线程池中的线程都被占用，那么当再有用户请求连接时，由于没有可用的空闲线程来处理，就会导致客户端连接失败，从而影响用户体验。因此，线程池比较适合大量的短连接应用。</p>
+<p>　　因此便出现了下面的两种高性能 IO 设计模式：Reactor 和 Proactor。</p>
+<p>　　在 Reactor 模式中，会先对每个 client 注册感兴趣的事件，然后有一个线程专门去轮询每个 client 是否有事件发生，当有事件发生时，便顺序处理每个事件，当所有事件处理完之后，便再转去继续轮询，如下图所示：</p>
+<p><img src="https://images0.cnblogs.com/i/288799/201408/180940159566985.jpg" alt></p>
+<p>　　从这里可以看出，上面的五种 IO 模型中的多路复用 IO 就是采用 Reactor 模式。注意，上面的图中展示的 是顺序处理每个事件，当然为了提高事件处理速度，可以通过多线程或者线程池的方式来处理事件。</p>
+<p>　　在 Proactor 模式中，当检测到有事件发生时，会新起一个异步操作，然后交由内核线程去处理，当内核线程完成 IO 操作之后，发送一个通知告知操作已完成，可以得知，异步 IO 模型采用的就是 Proactor 模式。</p>
+<p>　　参考资料：</p>
+<p>　　《Unix 网络编程》</p>
+<p>　　<a href="http://blog.csdn.net/goldensuny/article/details/30717107" target="_blank" rel="noopener">http://blog.csdn.net/goldensuny/article/details/30717107</a></p>
+<p>　　<a href="http://my.oschina.net/XYleung/blog/295122" target="_blank" rel="noopener">http://my.oschina.net/XYleung/blog/295122</a></p>
+<p>　　<a href="http://xmuzyq.iteye.com/blog/783218" target="_blank" rel="noopener">http://xmuzyq.iteye.com/blog/783218</a></p>
+<p>　　<a href="http://www.cnblogs.com/ccdev/p/3542669.html" target="_blank" rel="noopener">http://www.cnblogs.com/ccdev/p/3542669.html</a></p>
+<p>　　<a href="http://alicsd.iteye.com/blog/868702" target="_blank" rel="noopener">http://alicsd.iteye.com/blog/868702</a></p>
+<p>　　<a href="http://www.smithfox.com/?e=191" target="_blank" rel="noopener">http://www.smithfox.com/?e=191</a></p>
+<p>　　<a href="http://www.cnblogs.com/Anker/p/3254269.html" target="_blank" rel="noopener">http://www.cnblogs.com/Anker/p/3254269.html</a></p>
+<p>　　<a href="http://blog.csdn.net/hguisu/article/details/7453390" target="_blank" rel="noopener">http://blog.csdn.net/hguisu/article/details/7453390</a></p>
+<p>　　<a href="http://www.cnblogs.com/dawen/archive/2011/05/18/2050358.html" target="_blank" rel="noopener">http://www.cnblogs.com/dawen/archive/2011/05/18/2050358.html</a></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/03/06/Java/Java-IO/" rel="prev" title="Java/Java-IO">
+      <i class="fa fa-chevron-left"></i> Java/Java-IO
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/03/06/Java/Java_%E5%AE%B9%E5%99%A8/" rel="next" title="Java/Java_容器">
+      Java/Java_容器 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#null"><span class="nav-number">1.</span> <span class="nav-text">一. 什么是同步？什么是异步？#</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#null"><span class="nav-number">2.</span> <span class="nav-text">二. 什么是阻塞？什么是非阻塞？#</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#null"><span class="nav-number">3.</span> <span class="nav-text">三. 什么是阻塞 IO？什么是非阻塞 IO？#</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#null"><span class="nav-number">4.</span> <span class="nav-text">四. 什么是同步 IO？什么是异步 IO？#</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#null"><span class="nav-number">5.</span> <span class="nav-text">五. 五种 IO 模型#</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#null"><span class="nav-number">6.</span> <span class="nav-text">六. 两种高性能 IO 设计模式#</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="DXQ"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">DXQ</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">13</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">DXQ</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    <span title="站点总字数">188k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">2:51</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/cloud.png">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=EB Garamond:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"yoursite.com","root":"/","scheme":"Pisces","version":"7.7.2","exturl":false,"sidebar":{"position":"left","display":"hide","padding":10,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":true},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"./public/search.xml"};
+  </script>
+
+  <meta name="description" content="一、三大特性 封装 继承 多态   二、类图 泛化关系 (Generalization) 实现关系 (Realization) 聚合关系 (Aggregation) 组合关系 (Composition) 关联关系 (Association) 依赖关系 (Dependency)   三、设计原则 S.O.L.I.D 1. 单一责任原则 2. 开放封闭原则 3. 里氏替换原则 4. 接口分离原则">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java&#x2F;面向对象思想">
+<meta property="og:url" content="http://yoursite.com/2020/03/06/Java/%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E6%80%9D%E6%83%B3/index.html">
+<meta property="og:site_name" content="欢迎来到我的博客！">
+<meta property="og:description" content="一、三大特性 封装 继承 多态   二、类图 泛化关系 (Generalization) 实现关系 (Realization) 聚合关系 (Aggregation) 组合关系 (Composition) 关联关系 (Association) 依赖关系 (Dependency)   三、设计原则 S.O.L.I.D 1. 单一责任原则 2. 开放封闭原则 3. 里氏替换原则 4. 接口分离原则">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://yoursite.com/2020/03/06/Java/%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E6%80%9D%E6%83%B3/c0874e0a-dba3-467e-9c86-dd9313e0843e.jpg">
+<meta property="og:image" content="http://yoursite.com/2020/03/06/Java/%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E6%80%9D%E6%83%B3/83d466bd-946b-4430-854a-cf7b0696d4c8.jpg">
+<meta property="og:image" content="http://yoursite.com/2020/03/06/Java/%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E6%80%9D%E6%83%B3/a0ce43b7-afa8-4397-a96e-5c12a070f2ae.jpg">
+<meta property="og:image" content="http://yoursite.com/2020/03/06/Java/%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E6%80%9D%E6%83%B3/6a88a398-c494-41f5-bb62-9f7fb811df7c.jpg">
+<meta property="og:image" content="http://yoursite.com/2020/03/06/Java/%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E6%80%9D%E6%83%B3/a3e4dc62-0da5-4d22-94f2-140078281812.jpg">
+<meta property="og:image" content="http://yoursite.com/2020/03/06/Java/%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E6%80%9D%E6%83%B3/379444c9-f1d1-45cd-b7aa-b0c18427d388.jpg">
+<meta property="og:image" content="https://cyc-1256109796.cos.ap-guangzhou.myqcloud.com/%E5%85%AC%E4%BC%97%E5%8F%B7.jpg">
+<meta property="article:published_time" content="2020-03-06T10:52:57.131Z">
+<meta property="article:modified_time" content="2019-10-28T12:21:48.160Z">
+<meta property="article:author" content="DXQ">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://yoursite.com/2020/03/06/Java/%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E6%80%9D%E6%83%B3/c0874e0a-dba3-467e-9c86-dd9313e0843e.jpg">
+
+<link rel="canonical" href="http://yoursite.com/2020/03/06/Java/%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E6%80%9D%E6%83%B3/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true
+  };
+</script>
+
+<!-- jquery -->
+
+<script src="https://code.jquery.com/jquery-2.1.3.min.js"></script>
+  <title>Java/面向对象思想 | 欢迎来到我的博客！</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">欢迎来到我的博客！</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/03/06/Java/%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E6%80%9D%E6%83%B3/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="DXQ">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="欢迎来到我的博客！">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Java/面向对象思想
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-03-06 18:52:57" itemprop="dateCreated datePublished" datetime="2020-03-06T18:52:57+08:00">2020-03-06</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2019-10-28 20:21:48" itemprop="dateModified" datetime="2019-10-28T20:21:48+08:00">2019-10-28</time>
+              </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>5.2k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>5 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <!-- TOC -->
+
+<ul>
+<li><a href="#一三大特性">一、三大特性</a><ul>
+<li><a href="#封装">封装</a></li>
+<li><a href="#继承">继承</a></li>
+<li><a href="#多态">多态</a></li>
+</ul>
+</li>
+<li><a href="#二类图">二、类图</a><ul>
+<li><a href="#泛化关系-generalization">泛化关系 (Generalization)</a></li>
+<li><a href="#实现关系-realization">实现关系 (Realization)</a></li>
+<li><a href="#聚合关系-aggregation">聚合关系 (Aggregation)</a></li>
+<li><a href="#组合关系-composition">组合关系 (Composition)</a></li>
+<li><a href="#关联关系-association">关联关系 (Association)</a></li>
+<li><a href="#依赖关系-dependency">依赖关系 (Dependency)</a></li>
+</ul>
+</li>
+<li><a href="#三设计原则">三、设计原则</a><ul>
+<li><a href="#solid">S.O.L.I.D</a><ul>
+<li><a href="#1-单一责任原则">1. 单一责任原则</a></li>
+<li><a href="#2-开放封闭原则">2. 开放封闭原则</a></li>
+<li><a href="#3-里氏替换原则">3. 里氏替换原则</a></li>
+<li><a href="#4-接口分离原则">4. 接口分离原则</a></li>
+<li><a href="#5-依赖倒置原则">5. 依赖倒置原则</a></li>
+</ul>
+</li>
+<li><a href="#其他常见原则">其他常见原则</a><ul>
+<li><a href="#1-迪米特法则">1. 迪米特法则</a></li>
+<li><a href="#2-合成复用原则">2. 合成复用原则</a></li>
+<li><a href="#3-共同封闭原则">3. 共同封闭原则</a></li>
+<li><a href="#4-稳定抽象原则">4. 稳定抽象原则</a></li>
+<li><a href="#5-稳定依赖原则">5. 稳定依赖原则</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#参考资料">参考资料</a></li>
+</ul>
+<!-- /TOC -->
+
+
+<h1><span id="yi-san-da-te-xing">一、三大特性</span><a href="#yi-san-da-te-xing" class="header-anchor">#</a></h1><h2><span id="feng-zhuang">封装</span><a href="#feng-zhuang" class="header-anchor">#</a></h2><p>利用抽象数据类型将数据和基于数据的操作封装在一起，使其构成一个不可分割的独立实体。数据被保护在抽象数据类型的内部，尽可能地隐藏内部的细节，只保留一些对外接口使之与外部发生联系。用户无需知道对象内部的细节，但可以通过对象对外提供的接口来访问该对象。</p>
+<p>优点：</p>
+<ul>
+<li>减少耦合：可以独立地开发、测试、优化、使用、理解和修改</li>
+<li>减轻维护的负担：可以更容易被程序员理解，并且在调试的时候可以不影响其他模块</li>
+<li>有效地调节性能：可以通过剖析确定哪些模块影响了系统的性能</li>
+<li>提高软件的可重用性</li>
+<li>降低了构建大型系统的风险：即使整个系统不可用，但是这些独立的模块却有可能是可用的</li>
+</ul>
+<p>以下 Person 类封装 name、gender、age 等属性，外界只能通过 get() 方法获取一个 Person 对象的 name 属性和 gender 属性，而无法获取 age 属性，但是 age 属性可以供 work() 方法使用。</p>
+<p>注意到 gender 属性使用 int 数据类型进行存储，封装使得用户注意不到这种实现细节。并且在需要修改 gender 属性使用的数据类型时，也可以在不影响客户端代码的情况下进行。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Person</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> String name;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> gender;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> age;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getName</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> name;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getGender</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> gender == <span class="number">0</span> ? <span class="string">"man"</span> : <span class="string">"woman"</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">work</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (<span class="number">18</span> &lt;= age &amp;&amp; age &lt;= <span class="number">50</span>) &#123;</span><br><span class="line">            System.out.println(name + <span class="string">" is working very hard!"</span>);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            System.out.println(name + <span class="string">" can't work any more!"</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2><span id="ji-cheng">继承</span><a href="#ji-cheng" class="header-anchor">#</a></h2><p>继承实现了  <strong>IS-A</strong>  关系，例如 Cat 和 Animal 就是一种 IS-A 关系，因此 Cat 可以继承自 Animal，从而获得 Animal 非 private 的属性和方法。</p>
+<p>继承应该遵循里氏替换原则，子类对象必须能够替换掉所有父类对象。</p>
+<p>Cat 可以当做 Animal 来使用，也就是说可以使用 Animal 引用 Cat 对象。父类引用指向子类对象称为  <strong>向上转型</strong> 。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Animal animal = <span class="keyword">new</span> Cat();</span><br></pre></td></tr></table></figure>
+
+<h2><span id="duo-tai">多态</span><a href="#duo-tai" class="header-anchor">#</a></h2><p>多态分为编译时多态和运行时多态：</p>
+<ul>
+<li>编译时多态主要指方法的重载</li>
+<li>运行时多态指程序中定义的对象引用所指向的具体类型在运行期间才确定</li>
+</ul>
+<p>运行时多态有三个条件：</p>
+<ul>
+<li>继承</li>
+<li>覆盖（重写）</li>
+<li>向上转型</li>
+</ul>
+<p>下面的代码中，乐器类（Instrument）有两个子类：Wind 和 Percussion，它们都覆盖了父类的 play() 方法，并且在 main() 方法中使用父类 Instrument 来引用 Wind 和 Percussion 对象。在 Instrument 引用调用 play() 方法时，会执行实际引用对象所在类的 play() 方法，而不是 Instrument 类的方法。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Instrument</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">play</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"Instument is playing..."</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Wind</span> <span class="keyword">extends</span> <span class="title">Instrument</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">play</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"Wind is playing..."</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Percussion</span> <span class="keyword">extends</span> <span class="title">Instrument</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">play</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"Percussion is playing..."</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Music</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        List&lt;Instrument&gt; instruments = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">        instruments.add(<span class="keyword">new</span> Wind());</span><br><span class="line">        instruments.add(<span class="keyword">new</span> Percussion());</span><br><span class="line">        <span class="keyword">for</span>(Instrument instrument : instruments) &#123;</span><br><span class="line">            instrument.play();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1><span id="er-lei-tu">二、类图</span><a href="#er-lei-tu" class="header-anchor">#</a></h1><p>以下类图使用 <a href="https://www.planttext.com/" target="_blank" rel="noopener">PlantUML</a> 绘制，更多语法及使用请参考：<a href="http://plantuml.com/" target="_blank" rel="noopener">http://plantuml.com/</a> 。</p>
+<h2><span id="fan-hua-guan-xi-generalization">泛化关系 (Generalization)</span><a href="#fan-hua-guan-xi-generalization" class="header-anchor">#</a></h2><p>用来描述继承关系，在 Java 中使用 extends 关键字。</p>
+<div align="center"> <img src="/2020/03/06/Java/%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E6%80%9D%E6%83%B3/c0874e0a-dba3-467e-9c86-dd9313e0843e.jpg" width="180px"> </div><br>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">@startuml</span><br><span class="line"></span><br><span class="line">title Generalization</span><br><span class="line"></span><br><span class="line">class Vihical</span><br><span class="line">class Car</span><br><span class="line">class Trunck</span><br><span class="line"></span><br><span class="line">Vihical &lt;|-- Car</span><br><span class="line">Vihical &lt;|-- Trunck</span><br><span class="line"></span><br><span class="line">@enduml</span><br></pre></td></tr></table></figure>
+
+<h2><span id="shi-xian-guan-xi-realization">实现关系 (Realization)</span><a href="#shi-xian-guan-xi-realization" class="header-anchor">#</a></h2><p>用来实现一个接口，在 Java 中使用 implements 关键字。</p>
+<div align="center"> <img src="/2020/03/06/Java/%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E6%80%9D%E6%83%B3/83d466bd-946b-4430-854a-cf7b0696d4c8.jpg" width="170px"> </div><br>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">@startuml</span><br><span class="line"></span><br><span class="line">title Realization</span><br><span class="line"></span><br><span class="line">interface MoveBehavior</span><br><span class="line">class Fly</span><br><span class="line">class Run</span><br><span class="line"></span><br><span class="line">MoveBehavior &lt;|.. Fly</span><br><span class="line">MoveBehavior &lt;|.. Run</span><br><span class="line"></span><br><span class="line">@enduml</span><br></pre></td></tr></table></figure>
+
+<h2><span id="ju-he-guan-xi-aggregation">聚合关系 (Aggregation)</span><a href="#ju-he-guan-xi-aggregation" class="header-anchor">#</a></h2><p>表示整体由部分组成，但是整体和部分不是强依赖的，整体不存在了部分还是会存在。</p>
+<div align="center"> <img src="/2020/03/06/Java/%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E6%80%9D%E6%83%B3/a0ce43b7-afa8-4397-a96e-5c12a070f2ae.jpg" width="300px"> </div><br>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">@startuml</span><br><span class="line"></span><br><span class="line">title Aggregation</span><br><span class="line"></span><br><span class="line">class Computer</span><br><span class="line">class Keyboard</span><br><span class="line">class Mouse</span><br><span class="line">class Screen</span><br><span class="line"></span><br><span class="line">Computer o-- Keyboard</span><br><span class="line">Computer o-- Mouse</span><br><span class="line">Computer o-- Screen</span><br><span class="line"></span><br><span class="line">@enduml</span><br></pre></td></tr></table></figure>
+
+<h2><span id="zu-he-guan-xi-composition">组合关系 (Composition)</span><a href="#zu-he-guan-xi-composition" class="header-anchor">#</a></h2><p>和聚合不同，组合中整体和部分是强依赖的，整体不存在了部分也不存在了。比如公司和部门，公司没了部门就不存在了。但是公司和员工就属于聚合关系了，因为公司没了员工还在。</p>
+<div align="center"> <img src="/2020/03/06/Java/%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E6%80%9D%E6%83%B3/6a88a398-c494-41f5-bb62-9f7fb811df7c.jpg" width="280px"> </div><br>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">@startuml</span><br><span class="line"></span><br><span class="line">title Composition</span><br><span class="line"></span><br><span class="line">class Company</span><br><span class="line">class DepartmentA</span><br><span class="line">class DepartmentB</span><br><span class="line"></span><br><span class="line">Company *-- DepartmentA</span><br><span class="line">Company *-- DepartmentB</span><br><span class="line"></span><br><span class="line">@enduml</span><br></pre></td></tr></table></figure>
+
+<h2><span id="guan-lian-guan-xi-association">关联关系 (Association)</span><a href="#guan-lian-guan-xi-association" class="header-anchor">#</a></h2><p>表示不同类对象之间有关联，这是一种静态关系，与运行过程的状态无关，在最开始就可以确定。因此也可以用 1 对 1、多对 1、多对多这种关联关系来表示。比如学生和学校就是一种关联关系，一个学校可以有很多学生，但是一个学生只属于一个学校，因此这是一种多对一的关系，在运行开始之前就可以确定。</p>
+<div align="center"> <img src="/2020/03/06/Java/%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E6%80%9D%E6%83%B3/a3e4dc62-0da5-4d22-94f2-140078281812.jpg" width="200px"> </div><br>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">@startuml</span><br><span class="line"></span><br><span class="line">title Association</span><br><span class="line"></span><br><span class="line">class School</span><br><span class="line">class Student</span><br><span class="line"></span><br><span class="line">School &quot;1&quot; - &quot;n&quot; Student</span><br><span class="line"></span><br><span class="line">@enduml</span><br></pre></td></tr></table></figure>
+
+<h2><span id="yi-lai-guan-xi-dependency">依赖关系 (Dependency)</span><a href="#yi-lai-guan-xi-dependency" class="header-anchor">#</a></h2><p>和关联关系不同的是，依赖关系是在运行过程中起作用的。A 类和 B 类是依赖关系主要有三种形式：</p>
+<ul>
+<li>A 类是 B 类方法的局部变量；</li>
+<li>A 类是 B 类方法当中的一个参数；</li>
+<li>A 类向 B 类发送消息，从而影响 B 类发生变化。</li>
+</ul>
+<div align="center"> <img src="/2020/03/06/Java/%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E6%80%9D%E6%83%B3/379444c9-f1d1-45cd-b7aa-b0c18427d388.jpg" width="330px"> </div><br>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">@startuml</span><br><span class="line"></span><br><span class="line">title Dependency</span><br><span class="line"></span><br><span class="line">class Vihicle &#123;</span><br><span class="line">    move(MoveBehavior)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">interface MoveBehavior &#123;</span><br><span class="line">    move()</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">note &quot;MoveBehavior.move()&quot; as N</span><br><span class="line"></span><br><span class="line">Vihicle ..&gt; MoveBehavior</span><br><span class="line"></span><br><span class="line">Vihicle .. N</span><br><span class="line"></span><br><span class="line">@enduml</span><br></pre></td></tr></table></figure>
+
+<h1><span id="san-she-ji-yuan-ze">三、设计原则</span><a href="#san-she-ji-yuan-ze" class="header-anchor">#</a></h1><h2><span id="s-o-l-i-d">S.O.L.I.D</span><a href="#s-o-l-i-d" class="header-anchor">#</a></h2><table>
+<thead>
+<tr>
+<th align="center">简写</th>
+<th align="center">全拼</th>
+<th align="center">中文翻译</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">SRP</td>
+<td align="center">The Single Responsibility Principle</td>
+<td align="center">单一责任原则</td>
+</tr>
+<tr>
+<td align="center">OCP</td>
+<td align="center">The Open Closed Principle</td>
+<td align="center">开放封闭原则</td>
+</tr>
+<tr>
+<td align="center">LSP</td>
+<td align="center">The Liskov Substitution Principle</td>
+<td align="center">里氏替换原则</td>
+</tr>
+<tr>
+<td align="center">ISP</td>
+<td align="center">The Interface Segregation Principle</td>
+<td align="center">接口分离原则</td>
+</tr>
+<tr>
+<td align="center">DIP</td>
+<td align="center">The Dependency Inversion Principle</td>
+<td align="center">依赖倒置原则</td>
+</tr>
+</tbody></table>
+<h3><span id="1-dan-yi-ze-ren-yuan-ze">1. 单一责任原则</span><a href="#1-dan-yi-ze-ren-yuan-ze" class="header-anchor">#</a></h3><blockquote>
+<p>修改一个类的原因应该只有一个。</p>
+</blockquote>
+<p>换句话说就是让一个类只负责一件事，当这个类需要做过多事情的时候，就需要分解这个类。</p>
+<p>如果一个类承担的职责过多，就等于把这些职责耦合在了一起，一个职责的变化可能会削弱这个类完成其它职责的能力。</p>
+<h3><span id="2-kai-fang-feng-bi-yuan-ze">2. 开放封闭原则</span><a href="#2-kai-fang-feng-bi-yuan-ze" class="header-anchor">#</a></h3><blockquote>
+<p>类应该对扩展开放，对修改关闭。</p>
+</blockquote>
+<p>扩展就是添加新功能的意思，因此该原则要求在添加新功能时不需要修改代码。</p>
+<p>符合开闭原则最典型的设计模式是装饰者模式，它可以动态地将责任附加到对象上，而不用去修改类的代码。</p>
+<h3><span id="3-li-shi-ti-huan-yuan-ze">3. 里氏替换原则</span><a href="#3-li-shi-ti-huan-yuan-ze" class="header-anchor">#</a></h3><blockquote>
+<p>子类对象必须能够替换掉所有父类对象。</p>
+</blockquote>
+<p>继承是一种 IS-A 关系，子类需要能够当成父类来使用，并且需要比父类更特殊。</p>
+<p>如果不满足这个原则，那么各个子类的行为上就会有很大差异，增加继承体系的复杂度。</p>
+<h3><span id="4-jie-kou-fen-chi-yuan-ze">4. 接口分离原则</span><a href="#4-jie-kou-fen-chi-yuan-ze" class="header-anchor">#</a></h3><blockquote>
+<p>不应该强迫客户依赖于它们不用的方法。</p>
+</blockquote>
+<p>因此使用多个专门的接口比使用单一的总接口要好。</p>
+<h3><span id="5-yi-lai-dao-zhi-yuan-ze">5. 依赖倒置原则</span><a href="#5-yi-lai-dao-zhi-yuan-ze" class="header-anchor">#</a></h3><blockquote>
+<p>高层模块不应该依赖于低层模块，二者都应该依赖于抽象；<br>抽象不应该依赖于细节，细节应该依赖于抽象。</p>
+</blockquote>
+<p>高层模块包含一个应用程序中重要的策略选择和业务模块，如果高层模块依赖于低层模块，那么低层模块的改动就会直接影响到高层模块，从而迫使高层模块也需要改动。</p>
+<p>依赖于抽象意味着：</p>
+<ul>
+<li>任何变量都不应该持有一个指向具体类的指针或者引用；</li>
+<li>任何类都不应该从具体类派生；</li>
+<li>任何方法都不应该覆写它的任何基类中的已经实现的方法。</li>
+</ul>
+<h2><span id="qi-ta-chang-jian-yuan-ze">其他常见原则</span><a href="#qi-ta-chang-jian-yuan-ze" class="header-anchor">#</a></h2><p>除了上述的经典原则，在实际开发中还有下面这些常见的设计原则。</p>
+<table>
+<thead>
+<tr>
+<th align="center">简写</th>
+<th align="center">全拼</th>
+<th align="center">中文翻译</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">LOD</td>
+<td align="center">The Law of Demeter</td>
+<td align="center">迪米特法则</td>
+</tr>
+<tr>
+<td align="center">CRP</td>
+<td align="center">The Composite Reuse Principle</td>
+<td align="center">合成复用原则</td>
+</tr>
+<tr>
+<td align="center">CCP</td>
+<td align="center">The Common Closure Principle</td>
+<td align="center">共同封闭原则</td>
+</tr>
+<tr>
+<td align="center">SAP</td>
+<td align="center">The Stable Abstractions Principle</td>
+<td align="center">稳定抽象原则</td>
+</tr>
+<tr>
+<td align="center">SDP</td>
+<td align="center">The Stable Dependencies Principle</td>
+<td align="center">稳定依赖原则</td>
+</tr>
+</tbody></table>
+<h3><span id="1-di-mi-te-fa-ze">1. 迪米特法则</span><a href="#1-di-mi-te-fa-ze" class="header-anchor">#</a></h3><p>迪米特法则又叫作最少知识原则（Least Knowledge Principle，简写 LKP），就是说一个对象应当对其他对象有尽可能少的了解，不和陌生人说话。</p>
+<h3><span id="2-he-cheng-fu-yong-yuan-ze">2. 合成复用原则</span><a href="#2-he-cheng-fu-yong-yuan-ze" class="header-anchor">#</a></h3><p>尽量使用对象组合，而不是通过继承来达到复用的目的。</p>
+<h3><span id="3-gong-tong-feng-bi-yuan-ze">3. 共同封闭原则</span><a href="#3-gong-tong-feng-bi-yuan-ze" class="header-anchor">#</a></h3><p>一起修改的类，应该组合在一起（同一个包里）。如果必须修改应用程序里的代码，我们希望所有的修改都发生在一个包里（修改关闭），而不是遍布在很多包里。</p>
+<h3><span id="4-wen-ding-chou-xiang-yuan-ze">4. 稳定抽象原则</span><a href="#4-wen-ding-chou-xiang-yuan-ze" class="header-anchor">#</a></h3><p>最稳定的包应该是最抽象的包，不稳定的包应该是具体的包，即包的抽象程度跟它的稳定性成正比。</p>
+<h3><span id="5-wen-ding-yi-lai-yuan-ze">5. 稳定依赖原则</span><a href="#5-wen-ding-yi-lai-yuan-ze" class="header-anchor">#</a></h3><p>包之间的依赖关系都应该是稳定方向依赖的，包要依赖的包要比自己更具有稳定性。</p>
+<h1><span id="can-kao-zi-liao">参考资料</span><a href="#can-kao-zi-liao" class="header-anchor">#</a></h1><ul>
+<li>Java 编程思想</li>
+<li>敏捷软件开发：原则、模式与实践</li>
+<li><a href="http://www.cnblogs.com/shanyou/archive/2009/09/21/1570716.html" target="_blank" rel="noopener">面向对象设计的 SOLID 原则</a></li>
+<li><a href="http://design-patterns.readthedocs.io/zh_CN/latest/read_uml.html#generalization" target="_blank" rel="noopener">看懂 UML 类图和时序图</a></li>
+<li><a href="http://www.cnblogs.com/wolf-sun/p/UML-Sequence-diagram.html" target="_blank" rel="noopener">UML 系列——时序图（顺序图）sequence diagram</a></li>
+<li><a href="http://blog.csdn.net/jianyuerensheng/article/details/51602015" target="_blank" rel="noopener">面向对象编程三大特性 —— 封装、继承、多态</a></li>
+</ul>
+<p><br><div align="center">💡 <br><br> 更多精彩内容将发布在公众号 <strong>CyC2018</strong>，公众号提供了该项目的离线阅读版本，后台回复”下载” 即可领取。也提供了一份技术面试复习思维导图，不仅系统整理了面试知识点，而且标注了各个知识点的重要程度，从而帮你理清多而杂的面试知识点，后台回复”资料” 即可领取。我基本是按照这个思维导图来进行复习的，对我拿到了 BAT 头条等 Offer 起到很大的帮助。你们完全可以和我一样根据思维导图上列的知识点来进行复习，就不用看很多不重要的内容，也可以知道哪些内容很重要从而多安排一些复习时间。</div><br></p>
+<div align="center"><img width="180px" src="https://cyc-1256109796.cos.ap-guangzhou.myqcloud.com/%E5%85%AC%E4%BC%97%E5%8F%B7.jpg"></div>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/03/06/Java/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3Java%E4%B8%AD%E7%9A%84String/" rel="prev" title="Java/深入理解Java中的String">
+      <i class="fa fa-chevron-left"></i> Java/深入理解Java中的String
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#null"><span class="nav-number">1.</span> <span class="nav-text">一、三大特性#</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#null"><span class="nav-number">1.1.</span> <span class="nav-text">封装#</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#null"><span class="nav-number">1.2.</span> <span class="nav-text">继承#</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#null"><span class="nav-number">1.3.</span> <span class="nav-text">多态#</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#null"><span class="nav-number">2.</span> <span class="nav-text">二、类图#</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#null"><span class="nav-number">2.1.</span> <span class="nav-text">泛化关系 (Generalization)#</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#null"><span class="nav-number">2.2.</span> <span class="nav-text">实现关系 (Realization)#</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#null"><span class="nav-number">2.3.</span> <span class="nav-text">聚合关系 (Aggregation)#</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#null"><span class="nav-number">2.4.</span> <span class="nav-text">组合关系 (Composition)#</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#null"><span class="nav-number">2.5.</span> <span class="nav-text">关联关系 (Association)#</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#null"><span class="nav-number">2.6.</span> <span class="nav-text">依赖关系 (Dependency)#</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#null"><span class="nav-number">3.</span> <span class="nav-text">三、设计原则#</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#null"><span class="nav-number">3.1.</span> <span class="nav-text">S.O.L.I.D#</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#null"><span class="nav-number">3.2.</span> <span class="nav-text">其他常见原则#</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#null"><span class="nav-number">4.</span> <span class="nav-text">参考资料#</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="DXQ"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">DXQ</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">13</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">DXQ</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    <span title="站点总字数">188k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">2:51</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
