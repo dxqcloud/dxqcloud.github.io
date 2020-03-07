@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/cloud.png">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=EB Garamond:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"yoursite.com","root":"/","scheme":"Pisces","version":"7.7.2","exturl":false,"sidebar":{"position":"left","display":"hide","padding":10,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":true},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"./public/search.xml"};
+  </script>
+
+  <meta name="description" content="Java中HashMap的原理">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java_HashMap">
+<meta property="og:url" content="http://yoursite.com/Java%E5%9F%BA%E7%A1%80/Java/Java_HashMap/index.html">
+<meta property="og:site_name" content="欢迎来到我的博客！">
+<meta property="og:description" content="Java中HashMap的原理">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://images2015.cnblogs.com/blog/1024555/201611/1024555-20161113180447499-1953916974.png">
+<meta property="og:image" content="https://images2015.cnblogs.com/blog/1024555/201611/1024555-20161113235348670-746615111.png">
+<meta property="og:image" content="https://images2015.cnblogs.com/blog/1024555/201611/1024555-20161115133556388-1098209938.png">
+<meta property="og:image" content="https://images2015.cnblogs.com/blog/1024555/201611/1024555-20161115215812138-679881037.png">
+<meta property="og:image" content="https://images2015.cnblogs.com/blog/1024555/201611/1024555-20161116001404732-625340289.png">
+<meta property="og:image" content="https://images2015.cnblogs.com/blog/1024555/201611/1024555-20161116001717560-1455096254.png">
+<meta property="og:image" content="https://images2015.cnblogs.com/blog/831179/201606/831179-20160619223947585-1349166855.png">
+<meta property="og:image" content="https://images2015.cnblogs.com/blog/831179/201606/831179-20160619224106913-686903266.png">
+<meta property="og:image" content="https://images2015.cnblogs.com/blog/831179/201606/831179-20160620074305522-158439805.png">
+<meta property="og:image" content="https://images2015.cnblogs.com/blog/831179/201606/831179-20160620074911319-1507561812.png">
+<meta property="og:image" content="https://images2015.cnblogs.com/blog/831179/201606/831179-20160620215401225-1774760096.png">
+<meta property="og:image" content="https://images2015.cnblogs.com/blog/831179/201606/831179-20160620220528615-1921197618.png">
+<meta property="og:image" content="https://images2015.cnblogs.com/blog/831179/201606/831179-20160620220921022-137089907.png">
+<meta property="og:image" content="https://images2015.cnblogs.com/blog/831179/201606/831179-20160620222642584-546266716.png">
+<meta property="og:image" content="https://images2015.cnblogs.com/blog/831179/201606/831179-20160620222832787-1793696446.png">
+<meta property="og:image" content="https://images2015.cnblogs.com/blog/831179/201606/831179-20160620223117803-63828804.png">
+<meta property="og:image" content="https://images2015.cnblogs.com/blog/831179/201606/831179-20160620223211819-699901286.png">
+<meta property="article:published_time" content="2020-03-05T18:14:32.000Z">
+<meta property="article:modified_time" content="2020-03-07T13:23:27.272Z">
+<meta property="article:author" content="DXQ">
+<meta property="article:tag" content="Java">
+<meta property="article:tag" content="基础">
+<meta property="article:tag" content="Java数据结构">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://images2015.cnblogs.com/blog/1024555/201611/1024555-20161113180447499-1953916974.png">
+
+<link rel="canonical" href="http://yoursite.com/Java%E5%9F%BA%E7%A1%80/Java/Java_HashMap/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true
+  };
+</script>
+
+<!-- jquery -->
+
+<script src="https://code.jquery.com/jquery-2.1.3.min.js"></script>
+  <title>Java_HashMap | 欢迎来到我的博客！</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">欢迎来到我的博客！</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/Java%E5%9F%BA%E7%A1%80/Java/Java_HashMap/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="DXQ">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="欢迎来到我的博客！">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Java_HashMap
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-03-06 02:14:32" itemprop="dateCreated datePublished" datetime="2020-03-06T02:14:32+08:00">2020-03-06</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-03-07 21:23:27" itemprop="dateModified" datetime="2020-03-07T21:23:27+08:00">2020-03-07</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Java%E5%9F%BA%E7%A1%80/" itemprop="url" rel="index"><span itemprop="name">Java基础</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>13k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>11 分钟</span>
+            </span>
+            <div class="post-description">Java中HashMap的原理</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <div class="toc">
+
+<!-- toc -->
+
+<ul>
+<li><a href="#yi-shi-me-shi-ha-xi-biao">一、什么是哈希表</a></li>
+<li><a href="#er-hashmap-shi-xian-yuan-li">二、HashMap 实现原理</a></li>
+<li><a href="#san-wei-he-hashmap-de-shu-zu-chang-du-yi-ding-shi-2-de-ci-mi">三、为何 HashMap 的数组长度一定是 2 的次幂？</a></li>
+<li><a href="#si-chong-xie-equals-fang-fa-xu-tong-shi-chong-xie-hashcode-fang-fa">四、重写 equals 方法需同时重写 hashCode 方法</a></li>
+<li><a href="#hashmap-si-xun-huan">HashMap 死循环</a><ul>
+<li><a href="#si-xun-huan-chang-jing-chong-xian">死循环场景重现</a></li>
+<li><a href="#zheng-chang-de-kuo-rong-guo-cheng">正常的扩容过程</a></li>
+<li><a href="#bing-fa-qing-kuang-xia-de-kuo-rong">并发情况下的扩容</a></li>
+<li><a href="#duo-xian-cheng-put-cao-zuo-dao-zhi-yuan-su-diu-shi">多线程 put 操作，导致元素丢失</a></li>
+<li><a href="#qi-ta">其他</a></li>
+</ul>
+</li>
+</ul>
+<!-- tocstop -->
+
+</div>
+
+
+<p>　哈希表（hash table）也叫散列表，是一种非常重要的数据结构，应用场景及其丰富，许多缓存技术（比如 memcached）的核心其实就是在内存中维护一张大的哈希表，而 HashMap 的实现原理也常常出现在各类的面试题中，重要性可见一斑。本文会对 java 集合框架中的对应实现 HashMap 的实现原理进行讲解，然后会对 JDK7 的 HashMap 源码进行分析。</p>
+<h1><span id="yi-shi-me-shi-ha-xi-biao">一、什么是哈希表</span><a href="#yi-shi-me-shi-ha-xi-biao" class="header-anchor">#</a></h1><p>　　在讨论哈希表之前，我们先大概了解下其他数据结构在新增，查找等基础操作执行性能</p>
+<p>　　<strong>数组</strong>：采用一段连续的存储单元来存储数据。对于指定下标的查找，时间复杂度为 O(1)；通过给定值进行查找，需要遍历数组，逐一比对给定关键字和数组元素，时间复杂度为 O(n)，当然，对于有序数组，则可采用二分查找，插值查找，斐波那契查找等方式，可将查找复杂度提高为 O(logn)；对于一般的插入删除操作，涉及到数组元素的移动，其平均复杂度也为 O(n)</p>
+<p>　　<strong>线性链表</strong>：对于链表的新增，删除等操作（在找到指定操作位置后），仅需处理结点间的引用即可，时间复杂度为 O(1)，而查找操作需要遍历链表逐一进行比对，复杂度为 O(n)</p>
+<p>　　<strong>二叉树</strong>：对一棵相对平衡的有序二叉树，对其进行插入，查找，删除等操作，平均复杂度均为 O(logn)。</p>
+<p>　　<strong>哈希表</strong>：相比上述几种数据结构，在哈希表中进行添加，删除，查找等操作，性能十分之高，不考虑哈希冲突的情况下，仅需一次定位即可完成，时间复杂度为 O(1)，接下来我们就来看看哈希表是如何实现达到惊艳的常数阶 O(1) 的。</p>
+<p>　　我们知道，数据结构的物理存储结构只有两种：<strong>顺序存储结构</strong>和<strong>链式存储结构</strong>（像栈，队列，树，图等是从逻辑结构去抽象的，映射到内存中，也这两种物理组织形式），而在上面我们提到过，在数组中根据下标查找某个元素，一次定位就可以达到，哈希表利用了这种特性，<strong>哈希表的主干就是数组</strong>。</p>
+<p>　　比如我们要新增或查找某个元素，我们通过把当前元素的关键字 通过某个函数映射到数组中的某个位置，通过数组下标一次定位就可完成操作。</p>
+<pre><code>存储位置 = f(关键字)</code></pre><p>　其中，这个函数 f 一般称为<strong>哈希函数</strong>，这个函数的设计好坏会直接影响到哈希表的优劣。举个例子，比如我们要在哈希表中执行插入操作：</p>
+<p>　　<img src="https://images2015.cnblogs.com/blog/1024555/201611/1024555-20161113180447499-1953916974.png" alt></p>
+<p>　　查找操作同理，先通过哈希函数计算出实际存储地址，然后从数组中对应地址取出即可。</p>
+<p>　　<strong>哈希冲突</strong></p>
+<p>　　然而万事无完美，如果两个不同的元素，通过哈希函数得出的实际存储地址相同怎么办？也就是说，当我们对某个元素进行哈希运算，得到一个存储地址，然后要进行插入的时候，发现已经被其他元素占用了，其实这就是所谓的<strong>哈希冲突</strong>，也叫哈希碰撞。前面我们提到过，哈希函数的设计至关重要，好的哈希函数会尽可能地保证 <strong>计算简单</strong>和<strong>散列地址分布均匀,</strong> 但是，我们需要清楚的是，数组是一块连续的固定长度的内存空间，再好的哈希函数也不能保证得到的存储地址绝对不发生冲突。那么哈希冲突如何解决呢？哈希冲突的解决方案有多种: 开放定址法（发生冲突，继续寻找下一块未被占用的存储地址），再散列函数法，链地址法，而 HashMap 即是采用了链地址法，也就是<strong>数组 + 链表</strong>的方式，</p>
+<h1><span id="er-hashmap-shi-xian-yuan-li">二、HashMap 实现原理</span><a href="#er-hashmap-shi-xian-yuan-li" class="header-anchor">#</a></h1><p>　HashMap 的主干是一个 Entry 数组。Entry 是 HashMap 的基本组成单元，每一个 Entry 包含一个 key-value 键值对。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// HashMap的主干数组，可以看到就是一个Entry数组，初始值为空数组&#123;&#125;</span></span><br><span class="line">，主干数组的长度一定是<span class="number">2</span>的次幂</span><br><span class="line"><span class="keyword">transient</span> Entry&lt;K,V&gt;[] table = (Entry&lt;K,V&gt;[]) EMPTY_TABLE;</span><br></pre></td></tr></table></figure>
+
+<p>Entry 是 HashMap 中的一个静态内部类。代码如下</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">Entry</span>&lt;<span class="title">K</span>,<span class="title">V</span>&gt; <span class="keyword">implements</span> <span class="title">Map</span>.<span class="title">Entry</span>&lt;<span class="title">K</span>,<span class="title">V</span>&gt; </span>&#123;</span><br><span class="line">    <span class="keyword">final</span> K key;</span><br><span class="line">    V value;</span><br><span class="line">    Entry&lt;K,V&gt; next;<span class="comment">//存储指向下一个Entry的引用，单链表结构</span></span><br><span class="line">    <span class="keyword">int</span> hash;<span class="comment">//对key的hashcode值进行hash运算后得到的值，存储在Entry，避免重复计算</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">//Creates new entry.</span></span><br><span class="line">    Entry(<span class="keyword">int</span> h, K k, V v, Entry&lt;K,V&gt; n) &#123;</span><br><span class="line">        value = v;</span><br><span class="line">        next = n;</span><br><span class="line">        key = k;</span><br><span class="line">        hash = h;</span><br><span class="line">    &#125; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p> 所以，HashMap 的整体结构如下</p>
+<p><img src="https://images2015.cnblogs.com/blog/1024555/201611/1024555-20161113235348670-746615111.png" alt>　　</p>
+<p>　　<strong>简单来说，HashMap 由数组 + 链表组成的，数组是 HashMap 的主体，链表则是主要为了解决哈希冲突而存在的，如果定位到的数组位置不含链表（当前 entry 的 next 指向 null）, 那么对于查找，添加等操作很快，仅需一次寻址即可；如果定位到的数组包含链表，对于添加操作，其时间复杂度为 O(n)，首先遍历链表，存在即覆盖，否则新增；对于查找操作来讲，仍需遍历链表，然后通过 key 对象的 equals 方法逐一比对查找。所以，性能考虑，HashMap 中的链表出现越少，性能才会越好。</strong></p>
+<p>其他几个重要字段</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//实际存储的key-value键值对的个数</span></span><br><span class="line"><span class="keyword">transient</span> <span class="keyword">int</span> size;</span><br><span class="line"><span class="comment">//阈值，当table == &#123;&#125;时，该值为初始容量（初始容量默认为16）；</span></span><br><span class="line"><span class="comment">//当table被填充了，也就是为table分配内存空间后，threshold一般为 capacity*loadFactory。</span></span><br><span class="line"><span class="comment">//HashMap在进行扩容时需要参考threshold，后面会详细谈到</span></span><br><span class="line"><span class="keyword">int</span> threshold;</span><br><span class="line"><span class="comment">//负载因子，代表了table的填充度有多少，默认是0.75</span></span><br><span class="line"><span class="keyword">final</span> <span class="keyword">float</span> loadFactor;</span><br><span class="line"><span class="comment">//用于快速失败，由于HashMap非线程安全，</span></span><br><span class="line"><span class="comment">//在对HashMap进行迭代时，如果期间其他线程的参与导致HashMap的结构发生变化了</span></span><br><span class="line"><span class="comment">//（比如put，remove等操作），</span></span><br><span class="line"><span class="comment">//需要抛出异常ConcurrentModificationException</span></span><br><span class="line"><span class="keyword">transient</span> <span class="keyword">int</span> modCount;</span><br></pre></td></tr></table></figure>
+
+<p>HashMap 有 4 个构造器，其他构造器如果用户没有传入 initialCapacity 和 loadFactor 这两个参数，会使用默认值</p>
+<p>initialCapacity 默认为 16，loadFactory 默认为 0.75</p>
+<p>我们看下其中一个</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="title">HashMap</span><span class="params">(<span class="keyword">int</span> initialCapacity, <span class="keyword">float</span> loadFactor)</span> </span>&#123;</span><br><span class="line">　　<span class="comment">//此处对传入的初始容量进行校验，最大不能超过MAXIMUM_CAPACITY = 1&lt;&lt;30;</span></span><br><span class="line">    <span class="keyword">if</span> (initialCapacity &lt; <span class="number">0</span>)</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(<span class="string">"Illegal initial capacity: "</span> +</span><br><span class="line">                                            initialCapacity);</span><br><span class="line">    <span class="keyword">if</span> (initialCapacity &gt; MAXIMUM_CAPACITY)</span><br><span class="line">        initialCapacity = MAXIMUM_CAPACITY;</span><br><span class="line">    <span class="keyword">if</span> (loadFactor &lt;= <span class="number">0</span> || Float.isNaN(loadFactor))</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(<span class="string">"Illegal load factor: "</span> +</span><br><span class="line">                                            loadFactor);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">this</span>.loadFactor = loadFactor;</span><br><span class="line">    threshold = initialCapacity;</span><br><span class="line"></span><br><span class="line">    init();<span class="comment">//init方法在HashMap中没有实际实现，不过在其子类如 linkedHashMap中就会有对应实现</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>　　从上面这段代码我们可以看出，<strong>在常规构造器中，没有为数组 table 分配内存空间（有一个入参为指定 Map 的构造器例外），而是在执行 put 操作的时候才真正构建 table 数组</strong></p>
+<p>　　OK, 接下来我们来看看 put 操作的实现吧</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> V <span class="title">put</span><span class="params">(K key, V value)</span> </span>&#123;</span><br><span class="line">    <span class="comment">//如果table数组为空数组&#123;&#125;，进行数组填充（为table分配实际内存空间），入参为threshold，此时threshold为initialCapacity 默认是1&lt;&lt;4(2&lt;sup&gt;4&lt;/sup&gt;=16)</span></span><br><span class="line">    <span class="keyword">if</span> (table == EMPTY_TABLE) &#123;</span><br><span class="line">        inflateTable(threshold);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//如果key为null，存储位置为table[0]或table[0]的冲突链上</span></span><br><span class="line">    <span class="keyword">if</span> (key == <span class="keyword">null</span>)</span><br><span class="line">        <span class="keyword">return</span> putForNullKey(value);</span><br><span class="line">    <span class="keyword">int</span> hash = hash(key);<span class="comment">//对key的hashcode进一步计算，确保散列均匀</span></span><br><span class="line">    <span class="keyword">int</span> i = indexFor(hash, table.length);<span class="comment">//获取在table中的实际位置</span></span><br><span class="line">    <span class="keyword">for</span> (Entry&lt;K,V&gt; e = table[i]; e != <span class="keyword">null</span>; e = e.next) &#123;</span><br><span class="line">    <span class="comment">//如果该对应数据已存在，执行覆盖操作。用新value替换旧value，并返回旧value</span></span><br><span class="line">        Object k;</span><br><span class="line">        <span class="keyword">if</span> (e.hash == hash &amp;&amp; ((k = e.key) == key || key.equals(k))) &#123;</span><br><span class="line">            V oldValue = e.value;</span><br><span class="line">            e.value = value;</span><br><span class="line">            e.recordAccess(<span class="keyword">this</span>);</span><br><span class="line">            <span class="keyword">return</span> oldValue;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    modCount++;<span class="comment">//保证并发访问时，若HashMap内部结构发生变化，快速响应失败</span></span><br><span class="line">    addEntry(hash, key, value, i);<span class="comment">//新增一个entry</span></span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>先来看看 inflateTable 这个方法</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">inflateTable</span><span class="params">(<span class="keyword">int</span> toSize)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> capacity = roundUpToPowerOf2(toSize);<span class="comment">//capacity一定是2的次幂</span></span><br><span class="line">    threshold = (<span class="keyword">int</span>) Math.min(capacity * loadFactor, MAXIMUM_CAPACITY + <span class="number">1</span>);<span class="comment">//此处为threshold赋值，取capacity*loadFactor和MAXIMUM_CAPACITY+1的最小值，capaticy一定不会超过MAXIMUM_CAPACITY，除非loadFactor大于1</span></span><br><span class="line">    table = <span class="keyword">new</span> Entry[capacity];</span><br><span class="line">    initHashSeedAsNeeded(capacity);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>　　inflateTable 这个方法用于为主干数组 table 在内存中分配存储空间，通过 roundUpToPowerOf2(toSize) 可以确保 capacity 为大于或等于 toSize 的最接近 toSize 的二次幂，比如 toSize=13, 则 capacity=16;to_size=16,capacity=16;to_size=17,capacity=32.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">roundUpToPowerOf2</span><span class="params">(<span class="keyword">int</span> number)</span> </span>&#123;</span><br><span class="line">    <span class="comment">// assert number &gt;= 0 : "number must be non-negative";</span></span><br><span class="line">    <span class="keyword">return</span> number &gt;= MAXIMUM_CAPACITY</span><br><span class="line">            ? MAXIMUM_CAPACITY</span><br><span class="line">            : (number &gt; <span class="number">1</span>) ? Integer.highestOneBit((number - <span class="number">1</span>) &lt;&lt; <span class="number">1</span>) : <span class="number">1</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>roundUpToPowerOf2 中的这段处理使得数组长度一定为 2 的次幂，Integer.highestOneBit 是用来获取最左边的 bit（其他 bit 位为 0）所代表的数值.</p>
+<p>hash 函数</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//这是一个神奇的函数，用了很多的异或，移位等运算，对key的hashcode进一步进行计算以及二进制位的调整等来保证最终获取的存储位置尽量分布均匀</span></span><br><span class="line"><span class="function"><span class="keyword">final</span> <span class="keyword">int</span> <span class="title">hash</span><span class="params">(Object k)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> h = hashSeed;</span><br><span class="line">    <span class="keyword">if</span> (<span class="number">0</span> != h &amp;&amp; k <span class="keyword">instanceof</span> String) &#123;</span><br><span class="line">        <span class="keyword">return</span> sun.misc.Hashing.stringHash32((String) k);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    h ^= k.hashCode();</span><br><span class="line"></span><br><span class="line">    h ^= (h &gt;&gt;&gt; <span class="number">20</span>) ^ (h &gt;&gt;&gt; <span class="number">12</span>);</span><br><span class="line">    <span class="keyword">return</span> h ^ (h &gt;&gt;&gt; <span class="number">7</span>) ^ (h &gt;&gt;&gt; <span class="number">4</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>以上 hash 函数计算出的值，通过 indexFor 进一步处理来获取实际的存储位置</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">int</span> <span class="title">indexFor</span><span class="params">(<span class="keyword">int</span> h, <span class="keyword">int</span> length)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> h &amp; (length-<span class="number">1</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>h&amp;（length-1）保证获取的 index 一定在数组范围内，举个例子，默认容量 16，length-1=15，h=18, 转换成二进制计算为</p>
+<pre>        1  0  0  1  0
+    &   0  1  1  1  1
+    __________________
+        0  0  0  1  0    = 2</pre>
+
+<p>　　最终计算出的 index=2。有些版本的对于此处的计算会使用 取模运算，也能保证 index 一定在数组范围内，不过位运算对计算机来说，性能更高一些（HashMap 中有大量位运算）</p>
+<p>所以最终存储位置的确定流程是这样的：</p>
+<p><img src="https://images2015.cnblogs.com/blog/1024555/201611/1024555-20161115133556388-1098209938.png" alt></p>
+<p>再来看看 addEntry 的实现：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">addEntry</span><span class="params">(<span class="keyword">int</span> hash, K key, V value, <span class="keyword">int</span> bucketIndex)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> ((size &gt;= threshold) &amp;&amp; (<span class="keyword">null</span> != table[bucketIndex])) &#123;</span><br><span class="line">        resize(<span class="number">2</span> * table.length);<span class="comment">//当size超过临界阈值threshold，并且即将发生哈希冲突时进行扩容</span></span><br><span class="line">        hash = (<span class="keyword">null</span> != key) ? hash(key) : <span class="number">0</span>;</span><br><span class="line">        bucketIndex = indexFor(hash, table.length);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    createEntry(hash, key, value, bucketIndex);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>　　通过以上代码能够得知，当发生哈希冲突并且 size 大于阈值的时候，需要进行数组扩容，扩容时，需要新建一个长度为之前数组 2 倍的新的数组，然后将当前的 Entry 数组中的元素全部传输过去，扩容后的新数组长度为之前的 2 倍，所以扩容相对来说是个耗资源的操作。</p>
+<h1><span id="san-wei-he-hashmap-de-shu-zu-chang-du-yi-ding-shi-2-de-ci-mi">三、为何 HashMap 的数组长度一定是 2 的次幂？</span><a href="#san-wei-he-hashmap-de-shu-zu-chang-du-yi-ding-shi-2-de-ci-mi" class="header-anchor">#</a></h1><p>我们来继续看上面提到的 resize 方法</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">resize</span><span class="params">(<span class="keyword">int</span> newCapacity)</span> </span>&#123;</span><br><span class="line">    Entry[] oldTable = table;</span><br><span class="line">    <span class="keyword">int</span> oldCapacity = oldTable.length;</span><br><span class="line">    <span class="keyword">if</span> (oldCapacity == MAXIMUM_CAPACITY) &#123;</span><br><span class="line">        threshold = Integer.MAX_VALUE;</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    Entry[] newTable = <span class="keyword">new</span> Entry[newCapacity];</span><br><span class="line">    transfer(newTable, initHashSeedAsNeeded(newCapacity));</span><br><span class="line">    table = newTable;</span><br><span class="line">    threshold = (<span class="keyword">int</span>)Math.min(newCapacity * loadFactor, MAXIMUM_CAPACITY + <span class="number">1</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>如果数组进行扩容，数组长度发生变化，而存储位置 index = h&amp;(length-1),index 也可能会发生变化，需要重新计算 index，我们先来看看 transfer 这个方法</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">transfer</span><span class="params">(Entry[] newTable, <span class="keyword">boolean</span> rehash)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> newCapacity = newTable.length;</span><br><span class="line">　　<span class="comment">//for循环中的代码，逐个遍历链表，重新计算索引位置，将老数组数据复制到新数组中去（数组不存储实际数据，所以仅仅是拷贝引用而已）</span></span><br><span class="line">    <span class="keyword">for</span> (Entry&lt;K,V&gt; e : table) &#123;</span><br><span class="line">        <span class="keyword">while</span>(<span class="keyword">null</span> != e) &#123;</span><br><span class="line">            Entry&lt;K,V&gt; next = e.next;</span><br><span class="line">            <span class="keyword">if</span> (rehash) &#123;</span><br><span class="line">                e.hash = <span class="keyword">null</span> == e.key ? <span class="number">0</span> : hash(e.key);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">int</span> i = indexFor(e.hash, newCapacity);</span><br><span class="line">　　　　　　 <span class="comment">//将当前entry的next链指向新的索引位置,newTable[i]有可能为空，有可能也是个entry链，如果是entry链，直接在链表头部插入。</span></span><br><span class="line">            e.next = newTable[i];</span><br><span class="line">            newTable[i] = e;</span><br><span class="line">            e = next;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>　　这个方法将老数组中的数据逐个链表地遍历，扔到新的扩容后的数组中，我们的数组索引位置的计算是通过 对 key 值的 hashcode 进行 hash 扰乱运算后，再通过和 length-1 进行位运算得到最终数组索引位置。</p>
+<p>　　hashMap 的数组长度一定保持 2 的次幂，比如 16 的二进制表示为 10000，那么 length-1 就是 15，二进制为 01111，同理扩容后的数组长度为 32，二进制表示为 100000，length-1 为 31，二进制表示为 011111。从下图可以我们也能看到这样会保证低位全为 1，而扩容后只有一位差异，也就是多出了最左位的 1，这样在通过 h&amp;(length-1) 的时候，只要 h 对应的最左边的那一个差异位为 0，就能保证得到的新的数组索引和老数组索引一致 (大大减少了之前已经散列良好的老数组的数据位置重新调换)，个人理解。</p>
+<p>　　<img src="https://images2015.cnblogs.com/blog/1024555/201611/1024555-20161115215812138-679881037.png" alt></p>
+<p> 还有，数组长度保持 2 的次幂，length-1 的低位都为 1，会使得获得的数组索引 index 更加均匀，比如：</p>
+<p><img src="https://images2015.cnblogs.com/blog/1024555/201611/1024555-20161116001404732-625340289.png" alt></p>
+<p>　　我们看到，上面的 &amp; 运算，高位是不会对结果产生影响的（hash 函数采用各种位运算可能也是为了使得低位更加散列），我们只关注低位 bit，如果低位全部为 1，那么对于 h 低位部分来说，任何一位的变化都会对结果产生影响，也就是说，要得到 index=21 这个存储位置，h 的低位只有这一种组合。这也是数组长度设计为必须为 2 的次幂的原因。</p>
+<p><img src="https://images2015.cnblogs.com/blog/1024555/201611/1024555-20161116001717560-1455096254.png" alt></p>
+<p>　　如果不是 2 的次幂，也就是低位不是全为 1 此时，要使得 index=21，h 的低位部分不再具有唯一性了，哈希冲突的几率会变的更大，同时，index 对应的这个 bit 位无论如何不会等于 1 了，而对应的那些数组位置也就被白白浪费了。</p>
+<p>get 方法</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> V <span class="title">get</span><span class="params">(Object key)</span> </span>&#123;</span><br><span class="line">　　<span class="comment">//如果key为null,则直接去table[0]处去检索即可。</span></span><br><span class="line">    <span class="keyword">if</span> (key == <span class="keyword">null</span>)</span><br><span class="line">        <span class="keyword">return</span> getForNullKey();</span><br><span class="line">    Entry&lt;K,V&gt; entry = getEntry(key);</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">null</span> == entry ? <span class="keyword">null</span> : entry.getValue();</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+
+<p>get 方法通过 key 值返回对应 value，如果 key 为 null，直接去 table[0] 处检索。我们再看一下 getEntry 这个方法</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">final</span> Entry&lt;K,V&gt; <span class="title">getEntry</span><span class="params">(Object key)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (size == <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//通过key的hashcode值计算hash值</span></span><br><span class="line">    <span class="keyword">int</span> hash = (key == <span class="keyword">null</span>) ? <span class="number">0</span> : hash(key);</span><br><span class="line">    <span class="comment">//indexFor (hash&amp;length-1) 获取最终数组索引，然后遍历链表，通过equals方法比对找出对应记录</span></span><br><span class="line">    <span class="keyword">for</span> (Entry&lt;K,V&gt; e = table[indexFor(hash, table.length)];</span><br><span class="line">            e != <span class="keyword">null</span>;</span><br><span class="line">            e = e.next) &#123;</span><br><span class="line">        Object k;</span><br><span class="line">        <span class="keyword">if</span> (e.hash == hash &amp;&amp; </span><br><span class="line">            ((k = e.key) == key || (key != <span class="keyword">null</span> &amp;&amp; key.equals(k))))</span><br><span class="line">            <span class="keyword">return</span> e;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>　　可以看出，get 方法的实现相对简单，key(hashcode)–&gt;hash–&gt;indexFor–&gt; 最终索引位置，找到对应位置 table[i]，再查看是否有链表，遍历链表，通过 key 的 equals 方法比对查找对应的记录。要注意的是，有人觉得上面在定位到数组位置之后然后遍历链表的时候，e.hash == hash 这个判断没必要，仅通过 equals 判断就可以。其实不然，试想一下，如果传入的 key 对象重写了 equals 方法却没有重写 hashCode，而恰巧此对象定位到这个数组位置，如果仅仅用 equals 判断可能是相等的，但其 hashCode 和当前对象不一致，这种情况，根据 Object 的 hashCode 的约定，不能返回当前对象，而应该返回 null，后面的例子会做出进一步解释。</p>
+<h1><span id="si-chong-xie-equals-fang-fa-xu-tong-shi-chong-xie-hashcode-fang-fa">四、重写 equals 方法需同时重写 hashCode 方法</span><a href="#si-chong-xie-equals-fang-fa-xu-tong-shi-chong-xie-hashcode-fang-fa" class="header-anchor">#</a></h1><p>　　关于 HashMap 的源码分析就介绍到这儿了，最后我们再聊聊老生常谈的一个问题，各种资料上都会提到，“重写 equals 时也要同时覆盖 hashcode”，我们举个小例子来看看，如果重写了 equals 而不重写 hashcode 会发生什么样的问题</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyTest</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">Person</span></span>&#123;</span><br><span class="line">        <span class="keyword">int</span> idCard;</span><br><span class="line">        String name;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="title">Person</span><span class="params">(<span class="keyword">int</span> idCard, String name)</span> </span>&#123;</span><br><span class="line">            <span class="keyword">this</span>.idCard = idCard;</span><br><span class="line">            <span class="keyword">this</span>.name = name;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">equals</span><span class="params">(Object o)</span> </span>&#123;</span><br><span class="line">            <span class="keyword">if</span> (<span class="keyword">this</span> == o) &#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (o == <span class="keyword">null</span> || getClass() != o.getClass())&#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            Person person = (Person) o;</span><br><span class="line">            <span class="comment">//两个对象是否等值，通过idCard来确定</span></span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">this</span>.idCard == person.idCard;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String []args)</span></span>&#123;</span><br><span class="line">        HashMap&lt;Person,String&gt; map = <span class="keyword">new</span> HashMap&lt;Person, String&gt;();</span><br><span class="line">        Person person = <span class="keyword">new</span> Person(<span class="number">1234</span>,<span class="string">"乔峰"</span>);</span><br><span class="line">        <span class="comment">//put到hashmap中去</span></span><br><span class="line">        map.put(person,<span class="string">"天龙八部"</span>);</span><br><span class="line">        <span class="comment">//get取出，从逻辑上讲应该能输出“天龙八部”</span></span><br><span class="line">        System.out.println(<span class="string">"结果:"</span>+map.get(<span class="keyword">new</span> Person(<span class="number">1234</span>,<span class="string">"萧峰"</span>)));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>实际输出结果：</p>
+<pre><code>结果：null</code></pre><p>　　如果我们已经对 HashMap 的原理有了一定了解，这个结果就不难理解了。尽管我们在进行 get 和 put 操作的时候，使用的 key 从逻辑上讲是等值的（通过 equals 比较是相等的），但由于没有重写 hashCode 方法，所以 put 操作时，key(hashcode1)–&gt;hash–&gt;indexFor–&gt; 最终索引位置 ，而通过 key 取出 value 的时候 key(hashcode1)–&gt;hash–&gt;indexFor–&gt; 最终索引位置，由于 hashcode1 不等于 hashcode2，导致没有定位到一个数组位置而返回逻辑上错误的值 null（也有可能碰巧定位到一个数组位置，但是也会判断其 entry 的 hash 值是否相等，上面 get 方法中有提到。）</p>
+<p>　　所以，在重写 equals 的方法的时候，必须注意重写 hashCode 方法，同时还要保证通过 equals 判断相等的两个对象，调用 hashCode 方法要返回同样的整数值。而如果 equals 判断不相等的两个对象，其 hashCode 可以相同（只不过会发生哈希冲突，应尽量避免）。</p>
+<h1><span id="hashmap-si-xun-huan">HashMap 死循环</span><a href="#hashmap-si-xun-huan" class="header-anchor">#</a></h1><p>由于在公司项目中偶尔会遇到 HashMap 死循环造成 CPU100%，重启后问题消失，隔一段时间又会反复出现。今天在这里来仔细剖析下多线程情况下 HashMap 所带来的问题：</p>
+<p>1、多线程 put 操作后，get 操作导致死循环。</p>
+<p>2、多线程 put 非 null 元素后，get 操作得到 null 值。</p>
+<p>3、多线程 put 操作，导致元素丢失。</p>
+<h2><span id="si-xun-huan-chang-jing-chong-xian">死循环场景重现</span><a href="#si-xun-huan-chang-jing-chong-xian" class="header-anchor">#</a></h2><p>下面我用一段简单的 DEMO 模拟 HashMap 死循环:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"> <span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Test</span> <span class="keyword">extends</span> <span class="title">Thread</span> </span>&#123;</span><br><span class="line">    <span class="keyword">static</span> HashMap&lt;Integer, Integer&gt; map = <span class="keyword">new</span> HashMap&lt;Integer, Integer&gt;(<span class="number">2</span>);</span><br><span class="line">    <span class="keyword">static</span> AtomicInteger at = <span class="keyword">new</span> AtomicInteger()</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">while</span>(at.get() &lt; <span class="number">100000</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            map.put(at.get(),at.get());</span><br><span class="line">            at.incrementAndGet();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>其中 map 和 at 都是 static 的，即所有线程所共享的资源。接着 5 个线程并发操作该 HashMap：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span></span>&#123;</span><br><span class="line">    Test t0 = <span class="keyword">new</span> Test();</span><br><span class="line">    Test t1 = <span class="keyword">new</span> Test();</span><br><span class="line">    Test t2 = <span class="keyword">new</span> Test();</span><br><span class="line">    Test t3 = <span class="keyword">new</span> Test();</span><br><span class="line">    Test t4 = <span class="keyword">new</span> Test();</span><br><span class="line">    t0.start();</span><br><span class="line">    t1.start();</span><br><span class="line">    t2.start();</span><br><span class="line">    t3.start();</span><br><span class="line">    t4.start();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>反复执行几次，出现这种情况则表示死循环了：</p>
+<p><img src="https://images2015.cnblogs.com/blog/831179/201606/831179-20160619223947585-1349166855.png" alt></p>
+<p>接下来我们去查看下 CPU 以及堆栈情况： </p>
+<p><img src="https://images2015.cnblogs.com/blog/831179/201606/831179-20160619224106913-686903266.png" alt></p>
+<p>通过堆栈可以看到：Thread-3 由于 HashMap 的扩容操作导致了死循环。</p>
+<h2><span id="zheng-chang-de-kuo-rong-guo-cheng">正常的扩容过程</span><a href="#zheng-chang-de-kuo-rong-guo-cheng" class="header-anchor">#</a></h2><p>我们先来看下单线程情况下，正常的 rehash 过程</p>
+<p>1、假设我们的 hash 算法是简单的 key mod 一下表的大小（即数组的长度）。</p>
+<p>2、最上面是 old hash 表，其中 HASH 表的 size=2，所以 key=3,5,7 在 mod 2 以后都冲突在 table[1] 这个位置上了。</p>
+<p>3、接下来 HASH 表扩容，resize=4，然后所有的 &lt;key,value&gt; 重新进行散列分布，过程如下：</p>
+<p><img src="https://images2015.cnblogs.com/blog/831179/201606/831179-20160620074305522-158439805.png" alt></p>
+<p>在单线程情况下，一切看起来都很美妙，扩容过程也相当顺利。接下来看下并发情况下的扩容。</p>
+<h2><span id="bing-fa-qing-kuang-xia-de-kuo-rong">并发情况下的扩容</span><a href="#bing-fa-qing-kuang-xia-de-kuo-rong" class="header-anchor">#</a></h2><p>1、首先假设我们有两个线程，分别用红色和蓝色标注了。</p>
+<p>2、扩容部分的源代码：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">transfer</span><span class="params">(Entry[] newTable)</span> </span>&#123;</span><br><span class="line">    Entry[] src = table;</span><br><span class="line">    <span class="keyword">int</span> newCapacity = newTable.length;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; src.length; j++) &#123;</span><br><span class="line">        Entry&lt;K,V&gt; e = src[j];</span><br><span class="line">        <span class="keyword">if</span> (e != <span class="keyword">null</span>) &#123;</span><br><span class="line">            src[j] = <span class="keyword">null</span>;</span><br><span class="line">            <span class="keyword">do</span> &#123;</span><br><span class="line">                Entry&lt;K,V&gt; next = e.next;</span><br><span class="line">                <span class="keyword">int</span> i = indexFor(e.hash,   newCapacity);</span><br><span class="line">                e.next = newTable[i];</span><br><span class="line">                newTable[i] = e;</span><br><span class="line">                e = next;</span><br><span class="line">            &#125; <span class="keyword">while</span> (e != <span class="keyword">null</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>3、如果在线程一执行到第 9 行代码就被 CPU 调度挂起，去执行线程 2，且线程 2 把上面代码都执行完毕。我们来看看这个时候的状态：</p>
+<p><img src="https://images2015.cnblogs.com/blog/831179/201606/831179-20160620074911319-1507561812.png" alt></p>
+<p>4、接着 CPU 切换到线程一上来，执行 8-14 行代码，首先安置 3 这个 Entry：</p>
+<p> <img src="https://images2015.cnblogs.com/blog/831179/201606/831179-20160620215401225-1774760096.png" alt></p>
+<p>这里需要注意的是：线程二已经完成执行完成，现在 table 里面所有的 Entry 都是最新的，就是说 7 的 next 是 3,3 的 next 是 null；现在第一次循环已经结束，3 已经安置妥当。看看接下来会发生什么事情：</p>
+<p>1、e=next=7;</p>
+<p>2、e!=null, 循环继续</p>
+<p>3、next=e.next=3</p>
+<p>4、e.next 7 的 next 指向 3</p>
+<p>5、放置 7 这个 Entry，现在如图所示：</p>
+<p><img src="https://images2015.cnblogs.com/blog/831179/201606/831179-20160620220528615-1921197618.png" alt></p>
+<p>放置 7 之后，接着运行代码：</p>
+<p>1、e=next=3;</p>
+<p>2、判断不为空，继续循环</p>
+<p>3、next= e.next  这里也就是 3 的 next 为 null</p>
+<p>4、e.next=7, 就 3 的 next 指向 7.</p>
+<p>5、放置 3 这个 Entry，此时的状态如图： </p>
+<p><img src="https://images2015.cnblogs.com/blog/831179/201606/831179-20160620220921022-137089907.png" alt></p>
+<p>这个时候其实就出现了死循环了，3 移动节点头的位置，指向 7 这个 Entry; 在这之前 7 的 next 同时也指向了 3 这个 Entry。</p>
+<p>代码接着往下执行，e=next=null，此时条件判断会终止循环。这次扩容结束了。但是后续如果有查询（无论是查询的迭代还是扩容），都会 hang 死在 table【3】这个位置上。现在回过来看文章开头的那个 Demo，就是挂死在扩容阶段的 transfer 这个方法上面。</p>
+<p>出现上面这种情况绝不是我要在测试环境弄一批数据专门为了演示这种问题。我们仔细思考一下就会得出这样一个结论：如果扩容前相邻的两个 Entry 在扩容后还是分配到相同的 table 位置上，就会出现死循环的 BUG。在复杂的生产环境中，这种情况尽管不常见，但是可能会碰到。</p>
+<h2><span id="duo-xian-cheng-put-cao-zuo-dao-zhi-yuan-su-diu-shi">多线程 put 操作，导致元素丢失</span><a href="#duo-xian-cheng-put-cao-zuo-dao-zhi-yuan-su-diu-shi" class="header-anchor">#</a></h2><p> 下面来介绍下元素丢失的问题。这次我们选取 3、5、7 的顺序来演示：</p>
+<p>1、如果在线程一执行到第 9 行代码就被 CPU 调度挂起：</p>
+<p><img src="https://images2015.cnblogs.com/blog/831179/201606/831179-20160620222642584-546266716.png" alt></p>
+<p>2、线程二执行完成：</p>
+<p><img src="https://images2015.cnblogs.com/blog/831179/201606/831179-20160620222832787-1793696446.png" alt></p>
+<p>3、这个时候接着执行线程一，首先放置 7 这个 Entry：</p>
+<p><img src="https://images2015.cnblogs.com/blog/831179/201606/831179-20160620223117803-63828804.png" alt></p>
+<p>4、再放置 5 这个 Entry：</p>
+<p><img src="https://images2015.cnblogs.com/blog/831179/201606/831179-20160620223211819-699901286.png" alt></p>
+<p>5、由于 5 的 next 为 null，此时扩容动作结束，导致 3 这个 Entry 丢失。</p>
+<h2><span id="qi-ta">其他</span><a href="#qi-ta" class="header-anchor">#</a></h2><p>这个问题当初有人上报到 SUN 公司，不过 SUN 不认为这是一个问题。因为 HashMap 本来就不支持并发。</p>
+<p>如果大家想在并发场景下使用 HashMap，有两种解决方法：</p>
+<p>1、使用 ConcurrentHashMap。</p>
+<p>2、使用 Collections.synchronizedMap(Mao&lt;K,V&gt; m) 方法把 HashMap 变成一个线程安全的 Map。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Java/" rel="tag"># Java</a>
+              <a href="/tags/%E5%9F%BA%E7%A1%80/" rel="tag"># 基础</a>
+              <a href="/tags/Java%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" rel="tag"># Java数据结构</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/Java%E5%9F%BA%E7%A1%80/Java/Java_IO%E6%A8%A1%E5%9E%8B/" rel="prev" title="Java_IO模型">
+      <i class="fa fa-chevron-left"></i> Java_IO模型
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#null"><span class="nav-number">1.</span> <span class="nav-text">一、什么是哈希表#</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#null"><span class="nav-number">2.</span> <span class="nav-text">二、HashMap 实现原理#</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#null"><span class="nav-number">3.</span> <span class="nav-text">三、为何 HashMap 的数组长度一定是 2 的次幂？#</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#null"><span class="nav-number">4.</span> <span class="nav-text">四、重写 equals 方法需同时重写 hashCode 方法#</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#null"><span class="nav-number">5.</span> <span class="nav-text">HashMap 死循环#</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#null"><span class="nav-number">5.1.</span> <span class="nav-text">死循环场景重现#</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#null"><span class="nav-number">5.2.</span> <span class="nav-text">正常的扩容过程#</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#null"><span class="nav-number">5.3.</span> <span class="nav-text">并发情况下的扩容#</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#null"><span class="nav-number">5.4.</span> <span class="nav-text">多线程 put 操作，导致元素丢失#</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#null"><span class="nav-number">5.5.</span> <span class="nav-text">其他#</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="DXQ"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">DXQ</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">11</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">DXQ</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    <span title="站点总字数">174k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">2:38</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

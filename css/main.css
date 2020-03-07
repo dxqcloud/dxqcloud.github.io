@@ -1224,7 +1224,7 @@ pre .javascript .function {
 }
 .links-of-author a::before,
 .links-of-author span.exturl::before {
-  background: #3928e7;
+  background: #9f0fff;
   border-radius: 50%;
   content: ' ';
   display: inline-block;
@@ -2582,7 +2582,7 @@ ul.breadcrumb li + li:last-child {
   --card-bg-color: #f5f5f5;
   --text-color: #fff;
   --link-color: #fff;
-  --link-hover-color: #636;
+  --link-hover-color: #f00;
   --brand-color: #fff;
   --brand-hover-color: #fff;
   --table-row-odd-bg-color: #f9f9f9;
@@ -2611,9 +2611,6 @@ body {
 .brand {
   color: #fef3c8;
 }
-.content-wrap {
-  background: transparent;
-}
 .main-inner article {
   background: #fff;
   --link-color: #555;
@@ -2622,10 +2619,14 @@ body {
   margin-bottom: 20px;
 }
 .content-wrap {
-  background: rgba(255,255,255,0.6);
+  background: rgba(255,255,255,0);
 }
 .sidebar {
   background: rgba(255,255,255,0);
+}
+.site-state-item-name {
+  color: #fff;
+  font-size: 0.875em;
 }
 .header-inner {
   background: rgba(255,255,255,0);
@@ -2641,6 +2642,12 @@ body {
 .footer {
   font-size: 14px;
   color: #ededed;
+}
+.tag-cloud a {
+  color: #fff !important;
+}
+.tag-cloud a:hover {
+  color: #f00 !important;
 }
 .search-result {
   background: rgba(0,0,0,0.671);
