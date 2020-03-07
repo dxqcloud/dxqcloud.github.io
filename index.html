@@ -320,27 +320,27 @@
 
 <h1><span id="er-lei-tu">二、类图</span><a href="#er-lei-tu" class="header-anchor">#</a></h1><p>以下类图使用 <a href="https://www.planttext.com/" target="_blank" rel="noopener">PlantUML</a> 绘制，更多语法及使用请参考：<a href="http://plantuml.com/" target="_blank" rel="noopener">http://plantuml.com/</a> 。</p>
 <h2><span id="fan-hua-guan-xi-generalization">泛化关系 (Generalization)</span><a href="#fan-hua-guan-xi-generalization" class="header-anchor">#</a></h2><p>用来描述继承关系，在 Java 中使用 extends 关键字。</p>
-<div align="center"> <img src="/2020/03/06/Java/%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E6%80%9D%E6%83%B3/c0874e0a-dba3-467e-9c86-dd9313e0843e.jpg" width="180px"> </div><br>
+<div align="center"> <img src="pics/c0874e0a-dba3-467e-9c86-dd9313e0843e.jpg" width="180px"> </div><br>
 
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">@startuml</span><br><span class="line"></span><br><span class="line">title Generalization</span><br><span class="line"></span><br><span class="line">class Vihical</span><br><span class="line">class Car</span><br><span class="line">class Trunck</span><br><span class="line"></span><br><span class="line">Vihical &lt;|-- Car</span><br><span class="line">Vihical &lt;|-- Trunck</span><br><span class="line"></span><br><span class="line">@enduml</span><br></pre></td></tr></table></figure>
 
 <h2><span id="shi-xian-guan-xi-realization">实现关系 (Realization)</span><a href="#shi-xian-guan-xi-realization" class="header-anchor">#</a></h2><p>用来实现一个接口，在 Java 中使用 implements 关键字。</p>
-<div align="center"> <img src="/2020/03/06/Java/%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E6%80%9D%E6%83%B3/83d466bd-946b-4430-854a-cf7b0696d4c8.jpg" width="170px"> </div><br>
+<div align="center"> <img src="pics/83d466bd-946b-4430-854a-cf7b0696d4c8.jpg" width="170px"> </div><br>
 
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">@startuml</span><br><span class="line"></span><br><span class="line">title Realization</span><br><span class="line"></span><br><span class="line">interface MoveBehavior</span><br><span class="line">class Fly</span><br><span class="line">class Run</span><br><span class="line"></span><br><span class="line">MoveBehavior &lt;|.. Fly</span><br><span class="line">MoveBehavior &lt;|.. Run</span><br><span class="line"></span><br><span class="line">@enduml</span><br></pre></td></tr></table></figure>
 
 <h2><span id="ju-he-guan-xi-aggregation">聚合关系 (Aggregation)</span><a href="#ju-he-guan-xi-aggregation" class="header-anchor">#</a></h2><p>表示整体由部分组成，但是整体和部分不是强依赖的，整体不存在了部分还是会存在。</p>
-<div align="center"> <img src="/2020/03/06/Java/%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E6%80%9D%E6%83%B3/a0ce43b7-afa8-4397-a96e-5c12a070f2ae.jpg" width="300px"> </div><br>
+<div align="center"> <img src="pics/a0ce43b7-afa8-4397-a96e-5c12a070f2ae.jpg" width="300px"> </div><br>
 
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">@startuml</span><br><span class="line"></span><br><span class="line">title Aggregation</span><br><span class="line"></span><br><span class="line">class Computer</span><br><span class="line">class Keyboard</span><br><span class="line">class Mouse</span><br><span class="line">class Screen</span><br><span class="line"></span><br><span class="line">Computer o-- Keyboard</span><br><span class="line">Computer o-- Mouse</span><br><span class="line">Computer o-- Screen</span><br><span class="line"></span><br><span class="line">@enduml</span><br></pre></td></tr></table></figure>
 
 <h2><span id="zu-he-guan-xi-composition">组合关系 (Composition)</span><a href="#zu-he-guan-xi-composition" class="header-anchor">#</a></h2><p>和聚合不同，组合中整体和部分是强依赖的，整体不存在了部分也不存在了。比如公司和部门，公司没了部门就不存在了。但是公司和员工就属于聚合关系了，因为公司没了员工还在。</p>
-<div align="center"> <img src="/2020/03/06/Java/%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E6%80%9D%E6%83%B3/6a88a398-c494-41f5-bb62-9f7fb811df7c.jpg" width="280px"> </div><br>
+<div align="center"> <img src="pics/6a88a398-c494-41f5-bb62-9f7fb811df7c.jpg" width="280px"> </div><br>
 
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">@startuml</span><br><span class="line"></span><br><span class="line">title Composition</span><br><span class="line"></span><br><span class="line">class Company</span><br><span class="line">class DepartmentA</span><br><span class="line">class DepartmentB</span><br><span class="line"></span><br><span class="line">Company *-- DepartmentA</span><br><span class="line">Company *-- DepartmentB</span><br><span class="line"></span><br><span class="line">@enduml</span><br></pre></td></tr></table></figure>
 
 <h2><span id="guan-lian-guan-xi-association">关联关系 (Association)</span><a href="#guan-lian-guan-xi-association" class="header-anchor">#</a></h2><p>表示不同类对象之间有关联，这是一种静态关系，与运行过程的状态无关，在最开始就可以确定。因此也可以用 1 对 1、多对 1、多对多这种关联关系来表示。比如学生和学校就是一种关联关系，一个学校可以有很多学生，但是一个学生只属于一个学校，因此这是一种多对一的关系，在运行开始之前就可以确定。</p>
-<div align="center"> <img src="/2020/03/06/Java/%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E6%80%9D%E6%83%B3/a3e4dc62-0da5-4d22-94f2-140078281812.jpg" width="200px"> </div><br>
+<div align="center"> <img src="pics/a3e4dc62-0da5-4d22-94f2-140078281812.jpg" width="200px"> </div><br>
 
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">@startuml</span><br><span class="line"></span><br><span class="line">title Association</span><br><span class="line"></span><br><span class="line">class School</span><br><span class="line">class Student</span><br><span class="line"></span><br><span class="line">School &quot;1&quot; - &quot;n&quot; Student</span><br><span class="line"></span><br><span class="line">@enduml</span><br></pre></td></tr></table></figure>
 
@@ -350,7 +350,7 @@
 <li>A 类是 B 类方法当中的一个参数；</li>
 <li>A 类向 B 类发送消息，从而影响 B 类发生变化。</li>
 </ul>
-<div align="center"> <img src="/2020/03/06/Java/%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E6%80%9D%E6%83%B3/379444c9-f1d1-45cd-b7aa-b0c18427d388.jpg" width="330px"> </div><br>
+<div align="center"> <img src="pics/379444c9-f1d1-45cd-b7aa-b0c18427d388.jpg" width="330px"> </div><br>
 
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">@startuml</span><br><span class="line"></span><br><span class="line">title Dependency</span><br><span class="line"></span><br><span class="line">class Vihicle &#123;</span><br><span class="line">    move(MoveBehavior)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">interface MoveBehavior &#123;</span><br><span class="line">    move()</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">note &quot;MoveBehavior.move()&quot; as N</span><br><span class="line"></span><br><span class="line">Vihicle ..&gt; MoveBehavior</span><br><span class="line"></span><br><span class="line">Vihicle .. N</span><br><span class="line"></span><br><span class="line">@enduml</span><br></pre></td></tr></table></figure>
 
@@ -892,7 +892,7 @@
 <li>编辑模式（Insert mode）：按下 “i” 等按键之后进入，可以对文本进行编辑；</li>
 <li>指令列模式（Bottom-line mode）：按下 “:” 按键之后进入，用于保存退出等操作。</li>
 </ul>
-<div align="center"> <img src="/2020/03/06/Java/Linux/5942debd-fc00-477a-b390-7c5692cc8070.jpg" width="400"> </div><br>
+<div align="center"> <img src="pics/5942debd-fc00-477a-b390-7c5692cc8070.jpg" width="400"> </div><br>
 
 <p>在指令列模式下，有以下命令用于离开或者保存文件。</p>
 <table>
@@ -938,16 +938,16 @@
 <li><a href="http://www.ruanyifeng.com/blog/2011/05/how_to_choose_free_software_licenses.html" target="_blank" rel="noopener">如何选择开源许可证？</a></li>
 </ul>
 <h1><span id="er-ci-pan">二、磁盘</span><a href="#er-ci-pan" class="header-anchor">#</a></h1><h2><span id="ci-pan-jie-kou">磁盘接口</span><a href="#ci-pan-jie-kou" class="header-anchor">#</a></h2><h3><span id="1-ide">1. IDE</span><a href="#1-ide" class="header-anchor">#</a></h3><p>IDE（ATA）全称 Advanced Technology Attachment，接口速度最大为 133MB/s，因为并口线的抗干扰性太差，且排线占用空间较大，不利电脑内部散热，已逐渐被 SATA 所取代。</p>
-<div align="center"> <img src="/2020/03/06/Java/Linux/924914c0-660c-4e4a-bbc0-1df1146e7516.jpg" width="400"> </div><br>
+<div align="center"> <img src="pics/924914c0-660c-4e4a-bbc0-1df1146e7516.jpg" width="400"> </div><br>
 
 <h3><span id="2-sata">2. SATA</span><a href="#2-sata" class="header-anchor">#</a></h3><p>SATA 全称 Serial ATA，也就是使用串口的 ATA 接口，抗干扰性强，且对数据线的长度要求比 ATA 低很多，支持热插拔等功能。SATA-II 的接口速度为 300MiB/s，而新的 SATA-III 标准可达到 600MiB/s 的传输速度。SATA 的数据线也比 ATA 的细得多，有利于机箱内的空气流通，整理线材也比较方便。</p>
-<div align="center"> <img src="/2020/03/06/Java/Linux/f9f2a16b-4843-44d1-9759-c745772e9bcf.jpg" width> </div><br>
+<div align="center"> <img src="pics/f9f2a16b-4843-44d1-9759-c745772e9bcf.jpg" width> </div><br>
 
 <h3><span id="3-scsi">3. SCSI</span><a href="#3-scsi" class="header-anchor">#</a></h3><p>SCSI 全称是 Small Computer System Interface（小型机系统接口），经历多代的发展，从早期的 SCSI-II 到目前的 Ultra320 SCSI 以及 Fiber-Channel（光纤通道），接口型式也多种多样。SCSI 硬盘广为工作站以及个人电脑以及服务器所使用，因此会使用较为先进的技术，如碟片转速 15000rpm 的高转速，且传输时 CPU 占用率较低，但是单价也比相同容量的 ATA 及 SATA 硬盘更加昂贵。</p>
-<div align="center"> <img src="/2020/03/06/Java/Linux/f0574025-c514-49f5-a591-6d6a71f271f7.jpg" width> </div><br>
+<div align="center"> <img src="pics/f0574025-c514-49f5-a591-6d6a71f271f7.jpg" width> </div><br>
 
 <h3><span id="4-sas">4. SAS</span><a href="#4-sas" class="header-anchor">#</a></h3><p>SAS（Serial Attached SCSI）是新一代的 SCSI 技术，和 SATA 硬盘相同，都是采取序列式技术以获得更高的传输速度，可达到 6Gb/s。此外也通过缩小连接线改善系统内部空间等。</p>
-<div align="center"> <img src="/2020/03/06/Java/Linux/6729baa0-57d7-4817-b3aa-518cbccf824c.jpg" width> </div><br>
+<div align="center"> <img src="pics/6729baa0-57d7-4817-b3aa-518cbccf824c.jpg" width> </div><br>
 
 <h2><span id="ci-pan-de-wen-jian-ming">磁盘的文件名</span><a href="#ci-pan-de-wen-jian-ming" class="header-anchor">#</a></h2><p>Linux 中每个硬件都被当做一个文件，包括磁盘。磁盘以磁盘接口类型进行命名，常见磁盘的文件名如下：</p>
 <ul>
@@ -963,15 +963,15 @@
 <p>GPT 第 1 个区块记录了主要开机记录（MBR），紧接着是 33 个区块记录分区信息，并把最后的 33 个区块用于对分区信息进行备份。这 33 个区块第一个为 GPT 表头纪录，这个部份纪录了分区表本身的位置与大小和备份分区的位置，同时放置了分区表的校验码 (CRC32)，操作系统可以根据这个校验码来判断 GPT 是否正确。若有错误，可以使用备份分区进行恢复。</p>
 <p>GPT 没有扩展分区概念，都是主分区，每个 LBA 可以分 4 个分区，因此总共可以分 4 * 32 = 128 个分区。</p>
 <p>MBR 不支持 2.2 TB 以上的硬盘，GPT 则最多支持到 2<sup>33</sup> TB = 8 ZB。</p>
-<div align="center"> <img src="/2020/03/06/Java/Linux/GUID_Partition_Table_Scheme.svg.png" width="400"> </div><br>
+<div align="center"> <img src="pics/GUID_Partition_Table_Scheme.svg.png" width="400"> </div><br>
 
 <h2><span id="kai-ji-jian-ce-cheng-xu">开机检测程序</span><a href="#kai-ji-jian-ce-cheng-xu" class="header-anchor">#</a></h2><h3><span id="1-bios">1. BIOS</span><a href="#1-bios" class="header-anchor">#</a></h3><p>BIOS（Basic Input/Output System，基本输入输出系统），它是一个固件（嵌入在硬件中的软件），BIOS 程序存放在断电后内容不会丢失的只读内存中。</p>
-<div align="center"> <img src="/2020/03/06/Java/Linux/50831a6f-2777-46ea-a571-29f23c85cc21.jpg"> </div><br>
+<div align="center"> <img src="pics/50831a6f-2777-46ea-a571-29f23c85cc21.jpg"> </div><br>
 
 <p>BIOS 是开机的时候计算机执行的第一个程序，这个程序知道可以开机的磁盘，并读取磁盘第一个扇区的主要开机记录（MBR），由主要开机记录（MBR）执行其中的开机管理程序，这个开机管理程序会加载操作系统的核心文件。</p>
 <p>主要开机记录（MBR）中的开机管理程序提供以下功能：选单、载入核心文件以及转交其它开机管理程序。转交这个功能可以用来实现多重引导，只需要将另一个操作系统的开机管理程序安装在其它分区的启动扇区上，在启动开机管理程序时，就可以通过选单选择启动当前的操作系统或者转交给其它开机管理程序从而启动另一个操作系统。</p>
 <p>下图中，第一扇区的主要开机记录（MBR）中的开机管理程序提供了两个选单：M1、M2，M1 指向了 Windows 操作系统，而 M2 指向其它分区的启动扇区，里面包含了另外一个开机管理程序，提供了一个指向 Linux 的选单。</p>
-<div align="center"> <img src="/2020/03/06/Java/Linux/f900f266-a323-42b2-bc43-218fdb8811a8.jpg" width="600"> </div><br>
+<div align="center"> <img src="pics/f900f266-a323-42b2-bc43-218fdb8811a8.jpg" width="600"> </div><br>
 
 <p>安装多重引导，最好先安装 Windows 再安装 Linux。因为安装 Windows 时会覆盖掉主要开机记录（MBR），而 Linux 可以选择将开机管理程序安装在主要开机记录（MBR）或者其它分区的启动扇区，并且可以设置开机管理程序的选单。</p>
 <h3><span id="2-uefi">2. UEFI</span><a href="#2-uefi" class="header-anchor">#</a></h3><p>BIOS 不可以读取 GPT 分区表，而 UEFI 可以。</p>
@@ -986,13 +986,13 @@
 <li>superblock：记录文件系统的整体信息，包括 inode 和 block 的总量、使用量、剩余量，以及文件系统的格式与相关信息等；</li>
 <li>block bitmap：记录 block 是否被使用的位域。</li>
 </ul>
-<div align="center"> <img src="/2020/03/06/Java/Linux/BSD_disk.png" width="800"> </div><br>
+<div align="center"> <img src="pics/BSD_disk.png" width="800"> </div><br>
 
 <h2><span id="wen-jian-du-qu">文件读取</span><a href="#wen-jian-du-qu" class="header-anchor">#</a></h2><p>对于 Ext2 文件系统，当要读取一个文件的内容时，先在 inode 中去查找文件内容所在的所有 block，然后把所有 block 的内容读出来。</p>
-<div align="center"> <img src="/2020/03/06/Java/Linux/2f683fe8-bee8-46a9-86a7-685c8981555856191616.png"> </div><br>
+<div align="center"> <img src="pics/2f683fe8-bee8-46a9-86a7-685c8981555856191616.png"> </div><br>
 
 <p>而对于 FAT 文件系统，它没有 inode，每个 block 中存储着下一个 block 的编号。</p>
-<div align="center"> <img src="/2020/03/06/Java/Linux/f3131e98-8d20-4ff9-b14b-d6803691555844133783.png"> </div><br>
+<div align="center"> <img src="pics/f3131e98-8d20-4ff9-b14b-d6803691555844133783.png"> </div><br>
 
 <h2><span id="ci-pan-sui-pian">磁盘碎片</span><a href="#ci-pan-sui-pian" class="header-anchor">#</a></h2><p>指一个文件内容所在的 block 过于分散，导致磁盘磁头移动距离过大，从而降低磁盘读写性能。</p>
 <h2><span id="block">block</span><a href="#block" class="header-anchor">#</a></h2><p>在 Ext2 文件系统中所支持的 block 大小有 1K，2K 及 4K 三种，不同的大小限制了单个文件和文件系统的最大大小。</p>
@@ -1036,7 +1036,7 @@
 <li>每个文件都仅会占用一个 inode。</li>
 </ul>
 <p>inode 中记录了文件内容所在的 block 编号，但是每个 block 非常小，一个大文件随便都需要几十万的 block。而一个 inode 大小有限，无法直接引用这么多 block 编号。因此引入了间接、双间接、三间接引用。间接引用是指，让 inode 记录的引用 block 块记录引用信息。</p>
-<div align="center"> <img src="/2020/03/06/Java/Linux/inode_with_signatures.jpg" width="600"> </div><br>
+<div align="center"> <img src="pics/inode_with_signatures.jpg" width="600"> </div><br>
 
 <h2><span id="mu-lu">目录</span><a href="#mu-lu" class="header-anchor">#</a></h2><p>建立一个目录时，会分配一个 inode 与至少一个 block。block 记录的内容是目录下所有文件的 inode 编号以及文件名。</p>
 <p>可以看出文件的 inode 本身不记录文件名，文件名记录在目录中，因此新增文件、删除文件、更改文件名这些操作与目录的 w 权限有关。</p>
@@ -1049,7 +1049,7 @@
 <li>/usr (unix software resource)：所有系统默认软件都会安装到这个目录；</li>
 <li>/var (variable)：存放系统或程序运行过程中的数据文件。</li>
 </ul>
-<div align="center"> <img src="/2020/03/06/Java/Linux/linux-filesystem.png" width> </div><br>
+<div align="center"> <img src="pics/linux-filesystem.png" width> </div><br>
 
 <h1><span id="wu-wen-jian">五、文件</span><a href="#wu-wen-jian" class="header-anchor">#</a></h1><h2><span id="wen-jian-shu-xing">文件属性</span><a href="#wen-jian-shu-xing" class="header-anchor">#</a></h2><p>用户分为三种：文件拥有者、群组以及其它人，对不同的用户有不同的文件权限。</p>
 <p>使用 ls 查看一个文件时，会显示一个文件的信息，例如 <code>drwxr-xr-x 3 root root 17 May 6 00:14 .config</code>，对这个信息的解释如下：</p>
@@ -1121,7 +1121,7 @@
 <p>目录存储文件列表，一个目录的权限也就是对其文件列表的权限。因此，目录的 r 权限表示可以读取文件列表；w 权限表示可以修改文件列表，具体来说，就是添加删除文件，对文件名进行修改；x 权限可以让该目录成为工作目录，x 权限是 r 和 w 权限的基础，如果不能使一个目录成为工作目录，也就没办法读取文件列表以及对文件列表进行修改了。</p>
 <h2><span id="lian-jie">链接</span><a href="#lian-jie" class="header-anchor">#</a></h2><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"># ln [-sf] source_filename dist_filename</span><br><span class="line">-s ：默认是 hard link，加 -s 为 symbolic link</span><br><span class="line">-f ：如果目标文件存在时，先删除目标文件</span><br></pre></td></tr></table></figure>
 
-<div align="center"> <img src="/2020/03/06/Java/Linux/b8081c84-62c4-4019-b3ee-4bd0e443d647.jpg" width="400px"> </div><br>
+<div align="center"> <img src="pics/b8081c84-62c4-4019-b3ee-4bd0e443d647.jpg" width="400px"> </div><br>
 
 <h3><span id="1-shi-ti-lian-jie">1. 实体链接</span><a href="#1-shi-ti-lian-jie" class="header-anchor">#</a></h3><p>在目录下创建一个条目，记录着文件名与 inode 编号，这个 inode 就是源文件的 inode。</p>
 <p>删除任意一个条目，文件还是存在，只要引用数量不为 0。</p>
@@ -1161,7 +1161,7 @@
 <figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">-mtime  n ：列出在 n 天前的那一天修改过内容的文件</span><br><span class="line">-mtime +n ：列出在 n 天之前 (不含 n 天本身) 修改过内容的文件</span><br><span class="line">-mtime -n ：列出在 n 天之内 (含 n 天本身) 修改过内容的文件</span><br><span class="line">-newer file ： 列出比 file 更新的文件</span><br></pre></td></tr></table></figure>
 
 <p>+4、4 和 -4 的指示的时间范围如下：</p>
-<div align="center"> <img src="/2020/03/06/Java/Linux/658fc5e7-79c0-4247-9445-d69bf194c539.png" width> </div><br>
+<div align="center"> <img src="pics/658fc5e7-79c0-4247-9445-d69bf194c539.png" width> </div><br>
 
 <p><strong>② 与文件拥有者和所属群组有关的选项</strong> </p>
 <figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">-uid n</span><br><span class="line">-gid n</span><br><span class="line">-user name</span><br><span class="line">-group name</span><br><span class="line">-nouser ：搜索拥有者不存在 /etc/passwd 的文件</span><br><span class="line">-nogroup：搜索所属群组不存在于 /etc/group 的文件</span><br></pre></td></tr></table></figure>
@@ -1467,7 +1467,7 @@
 <td></td>
 </tr>
 <tr>
-<td align="center"><div align="center"> <img src="/2020/03/06/Java/Linux/76a49594323247f21c9b3a69945445ee.png" width> </div><br></td>
+<td align="center"><div align="center"> <img src="pics/76a49594323247f21c9b3a69945445ee.png" width> </div><br></td>
 <td></td>
 </tr>
 </tbody></table>
@@ -1478,7 +1478,7 @@
 </ul>
 <p>其中子进程发送的 SIGCHLD 信号包含了子进程的信息，比如进程 ID、进程状态、进程使用 CPU 的时间等。</p>
 <p>在子进程退出时，它的进程描述符不会立即释放，这是为了让父进程得到子进程信息，父进程通过 wait() 和 waitpid() 来获得一个已经退出的子进程的信息。</p>
-<div align="center"> <img src="/2020/03/06/Java/Linux/flow.png" width> </div><br>
+<div align="center"> <img src="pics/flow.png" width> </div><br>
 
 <h2><span id="wait">wait()</span><a href="#wait" class="header-anchor">#</a></h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">pid_t</span> <span class="title">wait</span><span class="params">(<span class="keyword">int</span> *status)</span></span></span><br></pre></td></tr></table></figure>
 
@@ -1797,7 +1797,7 @@
 </li>
 </ul>
 <p>本文大部分内容参考  <strong>周志明《深入理解 Java 虚拟机》</strong> ，想要深入学习的话请看原书。</p>
-<h1><span id="yi-yun-xing-shi-shu-ju-qu-yu">一、运行时数据区域</span><a href="#yi-yun-xing-shi-shu-ju-qu-yu" class="header-anchor">#</a></h1><div align="center"> <img src="/2020/03/06/Java/Java_%E8%99%9A%E6%8B%9F%E6%9C%BA/5778d113-8e13-4c53-b5bf-801e58080b97.png" width="400px"> </div><br>
+<h1><span id="yi-yun-xing-shi-shu-ju-qu-yu">一、运行时数据区域</span><a href="#yi-yun-xing-shi-shu-ju-qu-yu" class="header-anchor">#</a></h1><div align="center"> <img src="pics/5778d113-8e13-4c53-b5bf-801e58080b97.png" width="400px"> </div><br>
 
 <p><strong>线程私有的：</strong></p>
 <ul>
@@ -1813,7 +1813,7 @@
 </ul>
 <h2><span id="cheng-xu-ji-shu-qi">程序计数器</span><a href="#cheng-xu-ji-shu-qi" class="header-anchor">#</a></h2><p>记录正在执行的虚拟机字节码指令的地址（如果正在执行的是本地方法则为空）。注意：程序计数器是唯一一个不会出现 OutOfMemoryError 的内存区域，它的生命周期随着线程的创建而创建，随着线程的结束而死亡。</p>
 <h2><span id="java-xu-ni-ji-zhan">Java 虚拟机栈</span><a href="#java-xu-ni-ji-zhan" class="header-anchor">#</a></h2><p>每个 Java 方法在执行的同时会创建一个栈帧用于存储局部变量表、操作数栈、常量池引用等信息。从方法调用直至执行完成的过程，对应着一个栈帧在 Java 虚拟机栈中入栈和出栈的过程。</p>
-<div align="center"> <img src="/2020/03/06/Java/Java_%E8%99%9A%E6%8B%9F%E6%9C%BA/8442519f-0b4d-48f4-8229-56f984363c69.png" width="400px"> </div><br>
+<div align="center"> <img src="pics/8442519f-0b4d-48f4-8229-56f984363c69.png" width="400px"> </div><br>
 
 <p>可以通过 -Xss 这个虚拟机参数来指定每个线程的 Java 虚拟机栈内存大小，在 JDK 1.4 中默认为 256K，而在 JDK 1.5+ 默认为 1M：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">java -Xss2M HackTheJava</span><br></pre></td></tr></table></figure>
@@ -1825,7 +1825,7 @@
 </ul>
 <h2><span id="ben-di-fang-fa-zhan">本地方法栈</span><a href="#ben-di-fang-fa-zhan" class="header-anchor">#</a></h2><p>本地方法栈与 Java 虚拟机栈类似，它们之间的区别只不过是本地方法栈为本地方法服务。</p>
 <p>本地方法一般是用其它语言（C、C++ 或汇编语言等）编写的，并且被编译为基于本机硬件和操作系统的程序，对待这些方法需要特别处理。</p>
-<div align="center"> <img src="/2020/03/06/Java/Java_%E8%99%9A%E6%8B%9F%E6%9C%BA/66a6899d-c6b0-4a47-8569-9d08f0baf86c.png" width="300px"> </div><br>
+<div align="center"> <img src="pics/66a6899d-c6b0-4a47-8569-9d08f0baf86c.png" width="300px"> </div><br>
 
 <h2><span id="dui">堆</span><a href="#dui" class="header-anchor">#</a></h2><p>所有对象都在这里分配内存，是垃圾收集的主要区域（”GC 堆”）。</p>
 <p>现代的垃圾收集器基本都是采用分代收集算法，其主要的思想是针对不同类型的对象采取不同的垃圾回收算法。可以将堆分成两块：</p>
@@ -1930,7 +1930,7 @@
 <li>方法区中类静态属性引用的对象</li>
 <li>方法区中的常量引用的对象</li>
 </ul>
-<div align="center"> <img src="/2020/03/06/Java/Java_%E8%99%9A%E6%8B%9F%E6%9C%BA/83d909d2-3858-4fe1-8ff4-16471db0b180.png" width="350px"> </div><br>
+<div align="center"> <img src="pics/83d909d2-3858-4fe1-8ff4-16471db0b180.png" width="350px"> </div><br>
 
 
 <h3><span id="3-fang-fa-qu-de-hui-shou">3. 方法区的回收</span><a href="#3-fang-fa-qu-de-hui-shou" class="header-anchor">#</a></h3><p>因为方法区主要存放永久代对象，而永久代对象的回收率比新生代低很多，所以在方法区上进行回收性价比不高。</p>
@@ -1963,7 +1963,7 @@
 <p>使用 PhantomReference 来创建虚引用。</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Object obj = <span class="keyword">new</span> Object();</span><br><span class="line">PhantomReference&lt;Object&gt; pf = <span class="keyword">new</span> PhantomReference&lt;Object&gt;(obj, <span class="keyword">null</span>);</span><br><span class="line">obj = <span class="keyword">null</span>;</span><br></pre></td></tr></table></figure>
 
-<h2><span id="la-ji-shou-ji-suan-fa">垃圾收集算法</span><a href="#la-ji-shou-ji-suan-fa" class="header-anchor">#</a></h2><h3><span id="1-biao-ji-qing-chu">1. 标记 - 清除</span><a href="#1-biao-ji-qing-chu" class="header-anchor">#</a></h3><div align="center"> <img src="/2020/03/06/Java/Java_%E8%99%9A%E6%8B%9F%E6%9C%BA/005b481b-502b-4e3f-985d-d043c2b330aa.png" width="400px"> </div><br>
+<h2><span id="la-ji-shou-ji-suan-fa">垃圾收集算法</span><a href="#la-ji-shou-ji-suan-fa" class="header-anchor">#</a></h2><h3><span id="1-biao-ji-qing-chu">1. 标记 - 清除</span><a href="#1-biao-ji-qing-chu" class="header-anchor">#</a></h3><div align="center"> <img src="pics/005b481b-502b-4e3f-985d-d043c2b330aa.png" width="400px"> </div><br>
 
 <p>在标记阶段，程序会检查每个对象是否为活动对象，如果是活动对象，则程序会在对象头部打上标记。</p>
 <p>在清除阶段，会进行对象回收并取消标志位，另外，还会判断回收后的分块与前一个空闲分块是否连续，若连续，会合并这两个分块。回收对象就是把对象作为分块，连接到被称为 “空闲链表” 的单向链表，之后进行分配时只需要遍历这个空闲链表，就可以找到分块。</p>
@@ -1973,7 +1973,7 @@
 <li>标记和清除过程效率都不高；</li>
 <li>会产生大量不连续的内存碎片，导致无法给大对象分配内存。</li>
 </ul>
-<h3><span id="2-biao-ji-zheng-li">2. 标记 - 整理</span><a href="#2-biao-ji-zheng-li" class="header-anchor">#</a></h3><div align="center"> <img src="/2020/03/06/Java/Java_%E8%99%9A%E6%8B%9F%E6%9C%BA/ccd773a5-ad38-4022-895c-7ac318f31437.png" width="400px"> </div><br>
+<h3><span id="2-biao-ji-zheng-li">2. 标记 - 整理</span><a href="#2-biao-ji-zheng-li" class="header-anchor">#</a></h3><div align="center"> <img src="pics/ccd773a5-ad38-4022-895c-7ac318f31437.png" width="400px"> </div><br>
 
 <p>让所有存活的对象都向一端移动，然后直接清理掉端边界以外的内存。</p>
 <p>优点:</p>
@@ -1984,7 +1984,7 @@
 <ul>
 <li>需要移动大量对象，处理效率比较低。</li>
 </ul>
-<h3><span id="3-fu-zhi">3. 复制</span><a href="#3-fu-zhi" class="header-anchor">#</a></h3><div align="center"> <img src="/2020/03/06/Java/Java_%E8%99%9A%E6%8B%9F%E6%9C%BA/b2b77b9e-958c-4016-8ae5-9c6edd83871e.png" width="400px"> </div><br>
+<h3><span id="3-fu-zhi">3. 复制</span><a href="#3-fu-zhi" class="header-anchor">#</a></h3><div align="center"> <img src="pics/b2b77b9e-958c-4016-8ae5-9c6edd83871e.png" width="400px"> </div><br>
 
 <p>将内存划分为大小相等的两块，每次只使用其中一块，当这一块内存用完了就将还存活的对象复制到另一块上面，然后再把使用过的内存空间进行一次清理。</p>
 <p>主要不足是只使用了内存的一半。</p>
@@ -1996,20 +1996,20 @@
 <li>新生代使用：复制算法</li>
 <li>老年代使用：标记 - 清除 或者 标记 - 整理 算法</li>
 </ul>
-<h2><span id="la-ji-shou-ji-qi">垃圾收集器</span><a href="#la-ji-shou-ji-qi" class="header-anchor">#</a></h2><div align="center"> <img src="/2020/03/06/Java/Java_%E8%99%9A%E6%8B%9F%E6%9C%BA/c625baa0-dde6-449e-93df-c3a67f2f430f.jpg" width> </div><br>
+<h2><span id="la-ji-shou-ji-qi">垃圾收集器</span><a href="#la-ji-shou-ji-qi" class="header-anchor">#</a></h2><div align="center"> <img src="pics/c625baa0-dde6-449e-93df-c3a67f2f430f.jpg" width> </div><br>
 
 <p>以上是 HotSpot 虚拟机中的 7 个垃圾收集器，连线表示垃圾收集器可以配合使用。</p>
 <ul>
 <li>单线程与多线程：单线程指的是垃圾收集器只使用一个线程，而多线程使用多个线程；</li>
 <li>串行与并行：串行指的是垃圾收集器与用户程序交替执行，这意味着在执行垃圾收集的时候需要停顿用户程序；并行指的是垃圾收集器和用户程序同时执行。除了 CMS 和 G1 之外，其它垃圾收集器都是以串行的方式执行。</li>
 </ul>
-<h3><span id="1-serial-shou-ji-qi">1. Serial 收集器</span><a href="#1-serial-shou-ji-qi" class="header-anchor">#</a></h3><div align="center"> <img src="/2020/03/06/Java/Java_%E8%99%9A%E6%8B%9F%E6%9C%BA/22fda4ae-4dd5-489d-ab10-9ebfdad22ae0.jpg" width> </div><br>
+<h3><span id="1-serial-shou-ji-qi">1. Serial 收集器</span><a href="#1-serial-shou-ji-qi" class="header-anchor">#</a></h3><div align="center"> <img src="pics/22fda4ae-4dd5-489d-ab10-9ebfdad22ae0.jpg" width> </div><br>
 
 <p>Serial 翻译为串行，也就是说它以串行的方式执行。</p>
 <p>它是单线程的收集器，只会使用一个线程进行垃圾收集工作。</p>
 <p>它的优点是简单高效，在单个 CPU 环境下，由于没有线程交互的开销，因此拥有最高的单线程收集效率。</p>
 <p>它是 Client 场景下的默认新生代收集器，因为在该场景下内存一般来说不会很大。它收集一两百兆垃圾的停顿时间可以控制在一百多毫秒以内，只要不是太频繁，这点停顿时间是可以接受的。</p>
-<h3><span id="2-parnew-shou-ji-qi">2. ParNew 收集器</span><a href="#2-parnew-shou-ji-qi" class="header-anchor">#</a></h3><div align="center"> <img src="/2020/03/06/Java/Java_%E8%99%9A%E6%8B%9F%E6%9C%BA/81538cd5-1bcf-4e31-86e5-e198df1e013b.jpg" width> </div><br>
+<h3><span id="2-parnew-shou-ji-qi">2. ParNew 收集器</span><a href="#2-parnew-shou-ji-qi" class="header-anchor">#</a></h3><div align="center"> <img src="pics/81538cd5-1bcf-4e31-86e5-e198df1e013b.jpg" width> </div><br>
 
 <p>它是 Serial 收集器的多线程版本。</p>
 <p>它是 Server 场景下默认的新生代收集器，除了性能原因外，主要是因为除了 Serial 收集器，只有它能与 CMS 收集器配合使用。</p>
@@ -2018,18 +2018,18 @@
 <p>停顿时间越短就越适合需要与用户交互的程序，良好的响应速度能提升用户体验。而高吞吐量则可以高效率地利用 CPU 时间，尽快完成程序的运算任务，适合在后台运算而不需要太多交互的任务。</p>
 <p>缩短停顿时间是以牺牲吞吐量和新生代空间来换取的：新生代空间变小，垃圾回收变得频繁，导致吞吐量下降。</p>
 <p>可以通过一个开关参数打开 GC 自适应的调节策略（GC Ergonomics），就不需要手工指定新生代的大小（-Xmn）、Eden 和 Survivor 区的比例、晋升老年代对象年龄等细节参数了。虚拟机会根据当前系统的运行情况收集性能监控信息，动态调整这些参数以提供最合适的停顿时间或者最大的吞吐量。</p>
-<h3><span id="4-serial-old-shou-ji-qi">4. Serial Old 收集器</span><a href="#4-serial-old-shou-ji-qi" class="header-anchor">#</a></h3><div align="center"> <img src="/2020/03/06/Java/Java_%E8%99%9A%E6%8B%9F%E6%9C%BA/08f32fd3-f736-4a67-81ca-295b2a7972f2.jpg" width> </div><br>
+<h3><span id="4-serial-old-shou-ji-qi">4. Serial Old 收集器</span><a href="#4-serial-old-shou-ji-qi" class="header-anchor">#</a></h3><div align="center"> <img src="pics/08f32fd3-f736-4a67-81ca-295b2a7972f2.jpg" width> </div><br>
 
 <p>是 Serial 收集器的老年代版本，也是给 Client 场景下的虚拟机使用。如果用在 Server 场景下，它有两大用途：</p>
 <ul>
 <li>在 JDK 1.5 以及之前版本（Parallel Old 诞生以前）中与 Parallel Scavenge 收集器搭配使用。</li>
 <li>作为 CMS 收集器的后备预案，在并发收集发生 Concurrent Mode Failure 时使用。</li>
 </ul>
-<h3><span id="5-parallel-old-shou-ji-qi">5. Parallel Old 收集器</span><a href="#5-parallel-old-shou-ji-qi" class="header-anchor">#</a></h3><div align="center"> <img src="/2020/03/06/Java/Java_%E8%99%9A%E6%8B%9F%E6%9C%BA/278fe431-af88-4a95-a895-9c3b80117de3.jpg" width> </div><br>
+<h3><span id="5-parallel-old-shou-ji-qi">5. Parallel Old 收集器</span><a href="#5-parallel-old-shou-ji-qi" class="header-anchor">#</a></h3><div align="center"> <img src="pics/278fe431-af88-4a95-a895-9c3b80117de3.jpg" width> </div><br>
 
 <p>是 Parallel Scavenge 收集器的老年代版本。</p>
 <p>在注重吞吐量以及 CPU 资源敏感的场合，都可以优先考虑 Parallel Scavenge 加 Parallel Old 收集器。</p>
-<h3><span id="6-cms-shou-ji-qi">6. CMS 收集器</span><a href="#6-cms-shou-ji-qi" class="header-anchor">#</a></h3><div align="center"> <img src="/2020/03/06/Java/Java_%E8%99%9A%E6%8B%9F%E6%9C%BA/62e77997-6957-4b68-8d12-bfd609bb2c68.jpg" width> </div><br>
+<h3><span id="6-cms-shou-ji-qi">6. CMS 收集器</span><a href="#6-cms-shou-ji-qi" class="header-anchor">#</a></h3><div align="center"> <img src="pics/62e77997-6957-4b68-8d12-bfd609bb2c68.jpg" width> </div><br>
 
 <p>CMS（Concurrent Mark Sweep），Mark Sweep 指的是标记 - 清除算法。</p>
 <p>分为以下四个流程：</p>
@@ -2048,14 +2048,14 @@
 </ul>
 <h3><span id="7-g1-shou-ji-qi">7. G1 收集器</span><a href="#7-g1-shou-ji-qi" class="header-anchor">#</a></h3><p>G1（Garbage-First），它是一款面向服务端应用的垃圾收集器，在多 CPU 和大内存的场景下有很好的性能。HotSpot 开发团队赋予它的使命是未来可以替换掉 CMS 收集器。</p>
 <p>堆被分为新生代和老年代，其它收集器进行收集的范围都是整个新生代或者老年代，而 G1 可以直接对新生代和老年代一起回收。</p>
-<div align="center"> <img src="/2020/03/06/Java/Java_%E8%99%9A%E6%8B%9F%E6%9C%BA/4cf711a8-7ab2-4152-b85c-d5c226733807.png" width="600"> </div><br>
+<div align="center"> <img src="pics/4cf711a8-7ab2-4152-b85c-d5c226733807.png" width="600"> </div><br>
 
 <p>G1 把堆划分成多个大小相等的独立区域（Region），新生代和老年代不再物理隔离。</p>
-<div align="center"> <img src="/2020/03/06/Java/Java_%E8%99%9A%E6%8B%9F%E6%9C%BA/9bbddeeb-e939-41f0-8e8e-2b1a0aa7e0a7.png" width="600"> </div><br>
+<div align="center"> <img src="pics/9bbddeeb-e939-41f0-8e8e-2b1a0aa7e0a7.png" width="600"> </div><br>
 
 <p>通过引入 Region 的概念，从而将原来的一整块内存空间划分成多个的小空间，使得每个小空间可以单独进行垃圾回收。这种划分方法带来了很大的灵活性，使得可预测的停顿时间模型成为可能。通过记录每个 Region 垃圾回收时间以及回收所获得的空间（这两个值是通过过去回收的经验获得），并维护一个优先列表，每次根据允许的收集时间，优先回收价值最大的 Region。</p>
 <p>每个 Region 都有一个 Remembered Set，用来记录该 Region 对象的引用对象所在的 Region。通过使用 Remembered Set，在做可达性分析的时候就可以避免全堆扫描。</p>
-<div align="center"> <img src="/2020/03/06/Java/Java_%E8%99%9A%E6%8B%9F%E6%9C%BA/f99ee771-c56f-47fb-9148-c0036695b5fe.jpg" width> </div><br>
+<div align="center"> <img src="pics/f99ee771-c56f-47fb-9148-c0036695b5fe.jpg" width> </div><br>
 
 <p>如果不计算维护 Remembered Set 的操作，G1 收集器的运作大致可划分为以下几个步骤：</p>
 <ul>
@@ -2094,7 +2094,7 @@
 <p>为避免以上原因引起的 Full GC，可采用的方法为增大永久代空间或转为使用 CMS GC。</p>
 <h3><span id="5-concurrent-mode-failure">5. Concurrent Mode Failure</span><a href="#5-concurrent-mode-failure" class="header-anchor">#</a></h3><p>执行 CMS GC 的过程中同时有对象要放入老年代，而此时老年代空间不足（可能是 GC 过程中浮动垃圾过多导致暂时性的空间不足），便会报 Concurrent Mode Failure 错误，并触发 Full GC。</p>
 <h1><span id="si-lei-jia-zai-ji-zhi">四、类加载机制</span><a href="#si-lei-jia-zai-ji-zhi" class="header-anchor">#</a></h1><p>类是在运行期间第一次使用时动态加载的，而不是一次性加载所有类。因为如果一次性加载，那么会占用很多的内存。</p>
-<h2><span id="lei-de-sheng-ming-zhou-qi">类的生命周期</span><a href="#lei-de-sheng-ming-zhou-qi" class="header-anchor">#</a></h2><div align="center"> <img src="/2020/03/06/Java/Java_%E8%99%9A%E6%8B%9F%E6%9C%BA/335fe19c-4a76-45ab-9320-88c90d6a0d7e.png" width="600px"> </div><br>
+<h2><span id="lei-de-sheng-ming-zhou-qi">类的生命周期</span><a href="#lei-de-sheng-ming-zhou-qi" class="header-anchor">#</a></h2><div align="center"> <img src="pics/335fe19c-4a76-45ab-9320-88c90d6a0d7e.png" width="600px"> </div><br>
 
 <p>包括以下 7 个阶段：</p>
 <ul>
@@ -2196,7 +2196,7 @@
 
 <h2><span id="shuang-qin-wei-pai-mo-xing">双亲委派模型</span><a href="#shuang-qin-wei-pai-mo-xing" class="header-anchor">#</a></h2><p>应用程序是由三种类加载器互相配合从而实现类加载，除此之外还可以加入自己定义的类加载器。</p>
 <p>下图展示了类加载器之间的层次关系，称为双亲委派模型（Parents Delegation Model）。该模型要求除了顶层的启动类加载器外，其它的类加载器都要有自己的父类加载器。这里的父子关系一般通过组合关系（Composition）来实现，而不是继承关系（Inheritance）。</p>
-<div align="center"> <img src="/2020/03/06/Java/Java_%E8%99%9A%E6%8B%9F%E6%9C%BA/0dd2d40a-5b2b-4d45-b176-e75a4cd4bdbf.png" width="500px"> </div><br>
+<div align="center"> <img src="pics/0dd2d40a-5b2b-4d45-b176-e75a4cd4bdbf.png" width="500px"> </div><br>
 
 <h3><span id="1-gong-zuo-guo-cheng">1. 工作过程</span><a href="#1-gong-zuo-guo-cheng" class="header-anchor">#</a></h3><p>一个类加载器首先将类加载请求转发到父类加载器，只有当父类加载器无法完成时才尝试自己加载。</p>
 <h3><span id="2-hao-chu">2. 好处</span><a href="#2-hao-chu" class="header-anchor">#</a></h3><p>使得 Java 类随着它的类加载器一起具有一种带有优先级的层次关系，从而使得基础类得到统一。</p>
@@ -2453,7 +2453,7 @@
 <p>因为 String 的 hash 值经常被使用，例如 String 用做 HashMap 的 key。不可变的特性可以使得 hash 值也不可变，因此只需要进行一次计算。</p>
 <p><strong>2. String Pool 的需要</strong> </p>
 <p>如果一个 String 对象已经被创建过了，那么就会从 String Pool 中取得引用。只有 String 是不可变的，才可能使用 String Pool。</p>
-<div align="center"> <img src="/2020/03/06/Java/Java_%E5%9F%BA%E7%A1%80/9112288f-23f5-4e53-b222-a46fdbca1603.png" width="300px"> </div><br>
+<div align="center"> <img src="pics/9112288f-23f5-4e53-b222-a46fdbca1603.png" width="300px"> </div><br>
 
 <p><strong>3. 安全性</strong> </p>
 <p>String 经常作为参数，String 不可变性可以保证参数不可变。例如在作为网络连接参数的情况下如果 String 是可变的，那么在网络连接过程中，String 被改变，改变 String 对象的那一方以为现在连接的是其它主机，而实际情况却不一定是。</p>
@@ -2893,7 +2893,7 @@
 执行jsr指令跳到finally语句里执行；
 执行完finally语句后，返回之前保存在局部变量表里的值。
 如果try，finally语句里均有return，忽略try的return，而使用finally的return.</code></pre><p>注意：在finally中改变返回值的做法是不好的，因为如果存在finally代码块，try中的return语句不会立马返回调用者，而是记录下返回值待finally代码块执行完毕之后再向调用者返回其值，然后如果在finally中修改了返回值，就会返回修改后的值。显然，在finally中返回或者修改返回值会对程序造成很大的困扰，C#中直接用编译错误的方式来阻止程序员干这种龌龊的事情，Java中也可以通过提升编译器的语法检查级别来产生警告或错误，Eclipse中可以在如图所示的地方进行设置，强烈建议将此项设置为编译错误。</p>
-<div align="center"> <img src="/2020/03/06/Java/Java_%E5%9F%BA%E7%A1%80/PPjwP.png" width="600"> </div><br>
+<div align="center"> <img src="pics/PPjwP.png" width="600"> </div><br>
 
 <ul>
 <li><a href="https://www.tianmaying.com/tutorial/Java-Exception" target="_blank" rel="noopener">Java 入门之异常处理</a></li>
@@ -3066,7 +3066,7 @@
 </li>
 </ul>
 <h1><span id="yi-gai-lan">一、概览</span><a href="#yi-gai-lan" class="header-anchor">#</a></h1><p>容器主要包括 Collection 和 Map 两种，Collection 存储着对象的集合，而 Map 存储着键值对（两个对象）的映射表。</p>
-<h2><span id="collection">Collection</span><a href="#collection" class="header-anchor">#</a></h2><div align="center"> <img src="/2020/03/06/Java/Java_%E5%AE%B9%E5%99%A8/73403d84-d921-49f1-93a9-d8fe050f3497.png" width="800px"> </div><br>
+<h2><span id="collection">Collection</span><a href="#collection" class="header-anchor">#</a></h2><div align="center"> <img src="pics/73403d84-d921-49f1-93a9-d8fe050f3497.png" width="800px"> </div><br>
 
 <h3><span id="1-set">1. Set</span><a href="#1-set" class="header-anchor">#</a></h3><ul>
 <li><p>TreeSet：基于红黑树实现，支持有序性操作，例如根据一个范围查找元素的操作。但是查找效率不如 HashSet，HashSet 查找的时间复杂度为 O(1)，TreeSet 则为 O(logN)。</p>
@@ -3090,7 +3090,7 @@
 <li><p>PriorityQueue：基于堆结构实现，可以用它来实现优先队列。</p>
 </li>
 </ul>
-<h2><span id="map">Map</span><a href="#map" class="header-anchor">#</a></h2><div align="center"> <img src="/2020/03/06/Java/Java_%E5%AE%B9%E5%99%A8/774d756b-902a-41a3-a3fd-81ca3ef688dc.png" width="500px"> </div><br>
+<h2><span id="map">Map</span><a href="#map" class="header-anchor">#</a></h2><div align="center"> <img src="pics/774d756b-902a-41a3-a3fd-81ca3ef688dc.png" width="500px"> </div><br>
 
 <ul>
 <li><p>TreeMap：基于红黑树实现。</p>
@@ -3102,7 +3102,7 @@
 <li><p>LinkedHashMap：使用双向链表来维护元素的顺序，顺序为插入顺序或者最近最少使用（LRU）顺序。</p>
 </li>
 </ul>
-<h1><span id="er-rong-qi-zhong-de-she-ji-mo-shi">二、容器中的设计模式</span><a href="#er-rong-qi-zhong-de-she-ji-mo-shi" class="header-anchor">#</a></h1><h2><span id="die-dai-qi-mo-shi">迭代器模式</span><a href="#die-dai-qi-mo-shi" class="header-anchor">#</a></h2><div align="center"> <img src="/2020/03/06/Java/Java_%E5%AE%B9%E5%99%A8/93fb1d38-83f9-464a-a733-67b2e6bfddda.png" width="600px"> </div><br>
+<h1><span id="er-rong-qi-zhong-de-she-ji-mo-shi">二、容器中的设计模式</span><a href="#er-rong-qi-zhong-de-she-ji-mo-shi" class="header-anchor">#</a></h1><h2><span id="die-dai-qi-mo-shi">迭代器模式</span><a href="#die-dai-qi-mo-shi" class="header-anchor">#</a></h2><div align="center"> <img src="pics/93fb1d38-83f9-464a-a733-67b2e6bfddda.png" width="600px"> </div><br>
 
 <p>Collection 继承了 Iterable 接口，其中的 iterator() 方法能够产生一个 Iterator 对象，通过这个对象就可以迭代遍历 Collection 中的元素。</p>
 <p>从 JDK 1.5 之后可以使用 foreach 方法来遍历实现了 Iterable 接口的聚合对象。</p>
@@ -3125,7 +3125,7 @@
 <p>数组的默认大小为 10。</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> DEFAULT_CAPACITY = <span class="number">10</span>;</span><br></pre></td></tr></table></figure>
 
-<div align="center"> <img src="/2020/03/06/Java/Java_%E5%AE%B9%E5%99%A8/52a7744f-5bce-4ff3-a6f0-8449334d9f3d.png" width="400px"> </div><br>
+<div align="center"> <img src="pics/52a7744f-5bce-4ff3-a6f0-8449334d9f3d.png" width="400px"> </div><br>
 
 <h3><span id="2-kuo-rong">2. 扩容</span><a href="#2-kuo-rong" class="header-anchor">#</a></h3><p>添加元素时使用 ensureCapacityInternal() 方法来保证容量足够，如果不够时，需要使用 grow() 方法进行扩容，新容量的大小为 <code>oldCapacity + (oldCapacity &gt;&gt; 1)</code>，也就是旧容量的 1.5 倍，超过最大容量(Integer.MAX_VALUE), 抛出OMM错误， vector扩容成原来的两倍。</p>
 <p>扩容操作需要调用 <code>Arrays.copyOf()</code> 把原数组整个复制到新数组中，这个操作代价很高，因此最好在创建 ArrayList 对象时就指定大概的容量大小，减少扩容操作的次数。</p>
@@ -3186,7 +3186,7 @@
 <p>每个链表存储了 first 和 last 指针：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">transient</span> Node&lt;E&gt; first;</span><br><span class="line"><span class="keyword">transient</span> Node&lt;E&gt; last;</span><br></pre></td></tr></table></figure>
 
-<div align="center"> <img src="/2020/03/06/Java/Java_%E5%AE%B9%E5%99%A8/c8563120-cb00-4dd6-9213-9d9b337a7f7c.png" width="500px"> </div><br>
+<div align="center"> <img src="pics/c8563120-cb00-4dd6-9213-9d9b337a7f7c.png" width="500px"> </div><br>
 
 <h3><span id="2-yu-arraylist-de-bi-jiao">2. 与 ArrayList 的比较</span><a href="#2-yu-arraylist-de-bi-jiao" class="header-anchor">#</a></h3><ul>
 <li>ArrayList 基于动态数组实现，LinkedList 基于双向链表实现；</li>
@@ -3198,7 +3198,7 @@
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">transient</span> Entry[] table;</span><br></pre></td></tr></table></figure>
 
 <p>Entry 存储着键值对。它包含了四个字段，从 next 字段我们可以看出 Entry 是一个链表。即数组中的每个位置被当成一个桶，一个桶存放一个链表。HashMap 使用拉链法来解决冲突，同一个链表中存放哈希值和散列桶取模运算结果相同的 Entry。</p>
-<div align="center"> <img src="/2020/03/06/Java/Java_%E5%AE%B9%E5%99%A8/9420a703-1f9d-42ce-808e-bcb82b56483d.png" width="550px"> </div><br>
+<div align="center"> <img src="pics/9420a703-1f9d-42ce-808e-bcb82b56483d.png" width="550px"> </div><br>
 
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">Entry</span>&lt;<span class="title">K</span>,<span class="title">V</span>&gt; <span class="keyword">implements</span> <span class="title">Map</span>.<span class="title">Entry</span>&lt;<span class="title">K</span>,<span class="title">V</span>&gt; </span>&#123;</span><br><span class="line">    <span class="keyword">final</span> K key;</span><br><span class="line">    V value;</span><br><span class="line">    Entry&lt;K,V&gt; next;</span><br><span class="line">    <span class="keyword">int</span> hash;</span><br><span class="line"></span><br><span class="line">    Entry(<span class="keyword">int</span> h, K k, V v, Entry&lt;K,V&gt; n) &#123;</span><br><span class="line">        value = v;</span><br><span class="line">        next = n;</span><br><span class="line">        key = k;</span><br><span class="line">        hash = h;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">final</span> K <span class="title">getKey</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> key;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">final</span> V <span class="title">getValue</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> value;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">final</span> V <span class="title">setValue</span><span class="params">(V newValue)</span> </span>&#123;</span><br><span class="line">        V oldValue = value;</span><br><span class="line">        value = newValue;</span><br><span class="line">        <span class="keyword">return</span> oldValue;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">boolean</span> <span class="title">equals</span><span class="params">(Object o)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (!(o <span class="keyword">instanceof</span> Map.Entry))</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">        Map.Entry e = (Map.Entry)o;</span><br><span class="line">        Object k1 = getKey();</span><br><span class="line">        Object k2 = e.getKey();</span><br><span class="line">        <span class="keyword">if</span> (k1 == k2 || (k1 != <span class="keyword">null</span> &amp;&amp; k1.equals(k2))) &#123;</span><br><span class="line">            Object v1 = getValue();</span><br><span class="line">            Object v2 = e.getValue();</span><br><span class="line">            <span class="keyword">if</span> (v1 == v2 || (v1 != <span class="keyword">null</span> &amp;&amp; v1.equals(v2)))</span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">int</span> <span class="title">hashCode</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> Objects.hashCode(getKey()) ^ Objects.hashCode(getValue());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">final</span> String <span class="title">toString</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> getKey() + <span class="string">"="</span> + getValue();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
@@ -3216,7 +3216,7 @@
 <li>计算键值对所在的桶；</li>
 <li>在链表上顺序查找，时间复杂度显然和链表的长度成正比。</li>
 </ul>
-<div align="center"> <img src="/2020/03/06/Java/Java_%E5%AE%B9%E5%99%A8/e0870f80-b79e-4542-ae39-7420d4b0d8fe.png" width="550px"> </div><br>
+<div align="center"> <img src="pics/e0870f80-b79e-4542-ae39-7420d4b0d8fe.png" width="550px"> </div><br>
 
 <h3><span id="3-put-cao-zuo">3. put 操作</span><a href="#3-put-cao-zuo" class="header-anchor">#</a></h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> V <span class="title">put</span><span class="params">(K key, V value)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (table == EMPTY_TABLE) &#123;</span><br><span class="line">        inflateTable(threshold);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 键为 null 单独处理</span></span><br><span class="line">    <span class="keyword">if</span> (key == <span class="keyword">null</span>)</span><br><span class="line">        <span class="keyword">return</span> putForNullKey(value);</span><br><span class="line">    <span class="keyword">int</span> hash = hash(key);</span><br><span class="line">    <span class="comment">// 确定桶下标</span></span><br><span class="line">    <span class="keyword">int</span> i = indexFor(hash, table.length);</span><br><span class="line">    <span class="comment">// 先找出是否已经存在键为 key 的键值对，如果存在的话就更新这个键值对的值为 value</span></span><br><span class="line">    <span class="keyword">for</span> (Entry&lt;K,V&gt; e = table[i]; e != <span class="keyword">null</span>; e = e.next) &#123;</span><br><span class="line">        Object k;</span><br><span class="line">        <span class="keyword">if</span> (e.hash == hash &amp;&amp; ((k = e.key) == key || key.equals(k))) &#123;</span><br><span class="line">            V oldValue = e.value;</span><br><span class="line">            e.value = value;</span><br><span class="line">            e.recordAccess(<span class="keyword">this</span>);</span><br><span class="line">            <span class="keyword">return</span> oldValue;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    modCount++;</span><br><span class="line">    <span class="comment">// 插入新键值对</span></span><br><span class="line">    addEntry(hash, key, value, i);</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
@@ -3325,7 +3325,7 @@
 <p>默认的并发级别为 16，也就是说默认创建 16 个 Segment。</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> DEFAULT_CONCURRENCY_LEVEL = <span class="number">16</span>;</span><br></pre></td></tr></table></figure>
 
-<div align="center"> <img src="/2020/03/06/Java/Java_%E5%AE%B9%E5%99%A8/db808eff-31d7-4229-a4ad-b8ae71870a3a.png" width="550px"> </div><br>
+<div align="center"> <img src="pics/db808eff-31d7-4229-a4ad-b8ae71870a3a.png" width="550px"> </div><br>
 
 <h3><span id="2-size-cao-zuo">2. size 操作</span><a href="#2-size-cao-zuo" class="header-anchor">#</a></h3><p>每个 Segment 维护了一个 count 变量来统计该 Segment 中的键值对个数。</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * The number of elements. Accessed only either within locks</span></span><br><span class="line"><span class="comment"> * or among other volatile reads that maintain visibility.</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">transient</span> <span class="keyword">int</span> count;</span><br></pre></td></tr></table></figure>
@@ -3737,7 +3737,7 @@
 <li>FileInputStream 是 InputStream 的子类，属于具体组件，提供了字节流的输入操作；</li>
 <li>FilterInputStream 属于抽象装饰者，装饰者用于装饰组件，为组件提供额外的功能。例如 BufferedInputStream 为 FileInputStream 提供缓存的功能。</li>
 </ul>
-<div align="center"> <img src="/2020/03/06/Java/Java-IO/9709694b-db05-4cce-8d2f-1c8b09f4d921.png" width="650px"> </div><br>
+<div align="center"> <img src="pics/9709694b-db05-4cce-8d2f-1c8b09f4d921.png" width="650px"> </div><br>
 
 <p>实例化一个具有缓存功能的字节流对象时，只需要在 FileInputStream 对象上再套一层 BufferedInputStream 对象即可。</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">FileInputStream fileInputStream = <span class="keyword">new</span> FileInputStream(filePath);</span><br><span class="line">BufferedInputStream bufferedInputStream = <span class="keyword">new</span> BufferedInputStream(fileInputStream);</span><br></pre></td></tr></table></figure>
@@ -3807,7 +3807,7 @@
 <li>Socket：客户端类</li>
 <li>服务器和客户端通过 InputStream 和 OutputStream 进行输入输出。</li>
 </ul>
-<div align="center"> <img src="/2020/03/06/Java/Java-IO/1e6affc4-18e5-4596-96ef-fb84c63bf88a.png" width="550px"> </div><br>
+<div align="center"> <img src="pics/1e6affc4-18e5-4596-96ef-fb84c63bf88a.png" width="550px"> </div><br>
 
 <h2><span id="datagram">Datagram</span><a href="#datagram" class="header-anchor">#</a></h2><ul>
 <li>DatagramSocket：通信类</li>
@@ -3846,19 +3846,19 @@
 </ul>
 <p>状态变量的改变过程举例：</p>
 <p>① 新建一个大小为 8 个字节的缓冲区，此时 position 为 0，而 limit = capacity = 8。capacity 变量不会改变，下面的讨论会忽略它。</p>
-<div align="center"> <img src="/2020/03/06/Java/Java-IO/1bea398f-17a7-4f67-a90b-9e2d243eaa9a.png"> </div><br>
+<div align="center"> <img src="pics/1bea398f-17a7-4f67-a90b-9e2d243eaa9a.png"> </div><br>
 
 <p>② 从输入通道中读取 5 个字节数据写入缓冲区中，此时 position 为 5，limit 保持不变。</p>
-<div align="center"> <img src="/2020/03/06/Java/Java-IO/80804f52-8815-4096-b506-48eef3eed5c6.png"> </div><br>
+<div align="center"> <img src="pics/80804f52-8815-4096-b506-48eef3eed5c6.png"> </div><br>
 
 <p>③ 在将缓冲区的数据写到输出通道之前，需要先调用 flip() 方法，这个方法将 limit 设置为当前 position，并将 position 设置为 0。</p>
-<div align="center"> <img src="/2020/03/06/Java/Java-IO/952e06bd-5a65-4cab-82e4-dd1536462f38.png"> </div><br>
+<div align="center"> <img src="pics/952e06bd-5a65-4cab-82e4-dd1536462f38.png"> </div><br>
 
 <p>④ 从缓冲区中取 4 个字节到输出缓冲中，此时 position 设为 4。</p>
-<div align="center"> <img src="/2020/03/06/Java/Java-IO/b5bdcbe2-b958-4aef-9151-6ad963cb28b4.png"> </div><br>
+<div align="center"> <img src="pics/b5bdcbe2-b958-4aef-9151-6ad963cb28b4.png"> </div><br>
 
 <p>⑤ 最后需要调用 clear() 方法来清空缓冲区，此时 position 和 limit 都被设置为最初位置。</p>
-<div align="center"> <img src="/2020/03/06/Java/Java-IO/67bf5487-c45d-49b6-b9c0-a058d8c68902.png"> </div><br>
+<div align="center"> <img src="pics/67bf5487-c45d-49b6-b9c0-a058d8c68902.png"> </div><br>
 
 <h2><span id="wen-jian-nio-shi-li">文件 NIO 实例</span><a href="#wen-jian-nio-shi-li" class="header-anchor">#</a></h2><p>以下展示了使用 NIO 快速复制文件的实例：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">fastCopy</span><span class="params">(String src, String dist)</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* 获得源文件的输入字节流 */</span></span><br><span class="line">    FileInputStream fin = <span class="keyword">new</span> FileInputStream(src);</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* 获取输入字节流的文件通道 */</span></span><br><span class="line">    FileChannel fcin = fin.getChannel();</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* 获取目标文件的输出字节流 */</span></span><br><span class="line">    FileOutputStream fout = <span class="keyword">new</span> FileOutputStream(dist);</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* 获取输出字节流的文件通道 */</span></span><br><span class="line">    FileChannel fcout = fout.getChannel();</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* 为缓冲区分配 1024 个字节 */</span></span><br><span class="line">    ByteBuffer buffer = ByteBuffer.allocateDirect(<span class="number">1024</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> (<span class="keyword">true</span>) &#123;</span><br><span class="line"></span><br><span class="line">        <span class="comment">/* 从输入通道中读取数据到缓冲区中 */</span></span><br><span class="line">        <span class="keyword">int</span> r = fcin.read(buffer);</span><br><span class="line"></span><br><span class="line">        <span class="comment">/* read() 返回 -1 表示 EOF */</span></span><br><span class="line">        <span class="keyword">if</span> (r == -<span class="number">1</span>) &#123;</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">/* 切换读写 */</span></span><br><span class="line">        buffer.flip();</span><br><span class="line"></span><br><span class="line">        <span class="comment">/* 把缓冲区的内容写入输出文件中 */</span></span><br><span class="line">        fcout.write(buffer);</span><br><span class="line"></span><br><span class="line">        <span class="comment">/* 清空缓冲区 */</span></span><br><span class="line">        buffer.clear();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -3868,7 +3868,7 @@
 <p>通过配置监听的通道 Channel 为非阻塞，那么当 Channel 上的 IO 事件还未到达时，就不会进入阻塞状态一直等待，而是继续轮询其它 Channel，找到 IO 事件已经到达的 Channel 执行。</p>
 <p>因为创建和切换线程的开销很大，因此使用一个线程来处理多个事件而不是一个线程处理一个事件，对于 IO 密集型的应用具有很好地性能。</p>
 <p>应该注意的是，只有套接字 Channel 才能配置为非阻塞，而 FileChannel 不能，为 FileChannel 配置非阻塞也没有意义。</p>
-<div align="center"> <img src="/2020/03/06/Java/Java-IO/093f9e57-429c-413a-83ee-c689ba596cef.png" width="350px"> </div><br>
+<div align="center"> <img src="pics/093f9e57-429c-413a-83ee-c689ba596cef.png" width="350px"> </div><br>
 
 <h3><span id="1-chuang-jian-xuan-ze-qi">1. 创建选择器</span><a href="#1-chuang-jian-xuan-ze-qi" class="header-anchor">#</a></h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Selector selector = Selector.open();</span><br></pre></td></tr></table></figure>
 
@@ -4006,14 +4006,14 @@
 <h1><span id="java-nei-cun-mo-xing-jmm">Java 内存模型(JMM)</span><a href="#java-nei-cun-mo-xing-jmm" class="header-anchor">#</a></h1><p>Java 内存模型试图屏蔽各种硬件和操作系统的内存访问差异，以实现让 Java 程序在各种平台下都能达到一致的内存访问效果。<br>只有堆中的共享变量才会受到JMM的影响，因为这些内存是线程共享的，而虚拟机栈和本地方法栈是线程私有，不熟JMM影响。</p>
 <h2><span id="zhu-nei-cun-yu-gong-zuo-nei-cun">主内存与工作内存</span><a href="#zhu-nei-cun-yu-gong-zuo-nei-cun" class="header-anchor">#</a></h2><p>处理器上的寄存器的读写的速度比内存快几个数量级，为了解决这种速度矛盾，在它们之间加入了高速缓存。</p>
 <p>加入高速缓存带来了一个新的问题：缓存一致性。如果多个缓存共享同一块主内存区域，那么多个缓存的数据可能会不一致，需要一些协议来解决这个问题。</p>
-<div align="center"> <img src="/2020/03/06/Java/Java-%E5%B9%B6%E5%8F%91/942ca0d2-9d5c-45a4-89cb-5fd89b61913f.png" width="600px"> </div><br>
+<div align="center"> <img src="pics/942ca0d2-9d5c-45a4-89cb-5fd89b61913f.png" width="600px"> </div><br>
 
 <p>所有的变量都存储在主内存中，每个线程还有自己的工作内存，工作内存存储在高速缓存或者寄存器中，保存了该线程使用的变量的主内存副本拷贝。<br>JMM只是一个小抽象的模型，本地内存只是一个抽象的概念，这些内存可能处于寄存器，Cache等地方。</p>
 <p>线程只能直接操作工作内存中的变量，不同线程之间的变量值传递需要通过主内存来完成。</p>
-<div align="center"> <img src="/2020/03/06/Java/Java-%E5%B9%B6%E5%8F%91/15851555-5abc-497d-ad34-efed10f43a6b.png" width="600px"> </div><br>
+<div align="center"> <img src="pics/15851555-5abc-497d-ad34-efed10f43a6b.png" width="600px"> </div><br>
 
 <h2><span id="nei-cun-jian-jiao-hu-cao-zuo">内存间交互操作</span><a href="#nei-cun-jian-jiao-hu-cao-zuo" class="header-anchor">#</a></h2><p>Java 内存模型定义了 8 个操作来完成主内存和工作内存的交互操作。</p>
-<div align="center"> <img src="/2020/03/06/Java/Java-%E5%B9%B6%E5%8F%91/8b7ebbad-9604-4375-84e3-f412099d170c.png" width="450px"> </div><br>
+<div align="center"> <img src="pics/8b7ebbad-9604-4375-84e3-f412099d170c.png" width="450px"> </div><br>
 
 <ul>
 <li>read：把一个变量的值从主内存传输到工作内存中</li>
@@ -4029,10 +4029,10 @@
 <p>有一个错误认识就是，int 等原子性的类型在多线程环境中不会出现线程安全问题。前面的线程不安全示例代码中，cnt 属于 int 类型变量，1000 个线程对它进行自增操作之后，得到的值为 997 而不是 1000。</p>
 <p>为了方便讨论，将内存间的交互操作简化为 3 个：load、assign、store。</p>
 <p>下图演示了两个线程同时对 cnt 进行操作，load、assign、store 这一系列操作整体上看不具备原子性，那么在 T1 修改 cnt 并且还没有将修改后的值写入主内存，T2 依然可以读入旧值。可以看出，这两个线程虽然执行了两次自增运算，但是主内存中 cnt 的值最后为 1 而不是 2。因此对 int 类型读写操作满足原子性只是说明 load、assign、store 这些单个操作具备原子性。</p>
-<div align="center"> <img src="/2020/03/06/Java/Java-%E5%B9%B6%E5%8F%91/2797a609-68db-4d7b-8701-41ac9a34b14f.jpg" width="300px"> </div><br>
+<div align="center"> <img src="pics/2797a609-68db-4d7b-8701-41ac9a34b14f.jpg" width="300px"> </div><br>
 
 <p>AtomicInteger 能保证多个线程修改的原子性。</p>
-<div align="center"> <img src="/2020/03/06/Java/Java-%E5%B9%B6%E5%8F%91/dd563037-fcaa-4bd8-83b6-b39d93a12c77.jpg" width="300px"> </div><br>
+<div align="center"> <img src="pics/dd563037-fcaa-4bd8-83b6-b39d93a12c77.jpg" width="300px"> </div><br>
 
 <p>使用 AtomicInteger 重写之前线程不安全的代码之后得到以下线程安全实现：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">AtomicExample</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> AtomicInteger cnt = <span class="keyword">new</span> AtomicInteger();</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">add</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        cnt.incrementAndGet();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">get</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> cnt.get();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -4062,31 +4062,31 @@
 <p>Single Thread rule</p>
 </blockquote>
 <p>在一个线程内，在程序前面的操作先行发生于后面的操作。</p>
-<div align="center"> <img src="/2020/03/06/Java/Java-%E5%B9%B6%E5%8F%91/874b3ff7-7c5c-4e7a-b8ab-a82a3e038d20.png" width="180px"> </div><br>
+<div align="center"> <img src="pics/874b3ff7-7c5c-4e7a-b8ab-a82a3e038d20.png" width="180px"> </div><br>
 
 <h3><span id="2-guan-cheng-suo-ding-gui-ze">2. 管程锁定规则</span><a href="#2-guan-cheng-suo-ding-gui-ze" class="header-anchor">#</a></h3><blockquote>
 <p>Monitor Lock Rule</p>
 </blockquote>
 <p>一个 unlock 操作先行发生于后面对同一个锁的 lock 操作。</p>
-<div align="center"> <img src="/2020/03/06/Java/Java-%E5%B9%B6%E5%8F%91/8996a537-7c4a-4ec8-a3b7-7ef1798eae26.png" width="350px"> </div><br>
+<div align="center"> <img src="pics/8996a537-7c4a-4ec8-a3b7-7ef1798eae26.png" width="350px"> </div><br>
 
 <h3><span id="3-volatile-bian-liang-gui-ze">3. volatile 变量规则</span><a href="#3-volatile-bian-liang-gui-ze" class="header-anchor">#</a></h3><blockquote>
 <p>Volatile Variable Rule</p>
 </blockquote>
 <p>对一个 volatile 变量的写操作先行发生于后面对这个变量的读操作。</p>
-<div align="center"> <img src="/2020/03/06/Java/Java-%E5%B9%B6%E5%8F%91/942f33c9-8ad9-4987-836f-007de4c21de0.png" width="400px"> </div><br>
+<div align="center"> <img src="pics/942f33c9-8ad9-4987-836f-007de4c21de0.png" width="400px"> </div><br>
 
 <h3><span id="4-xian-cheng-qi-dong-gui-ze">4. 线程启动规则</span><a href="#4-xian-cheng-qi-dong-gui-ze" class="header-anchor">#</a></h3><blockquote>
 <p>Thread Start Rule</p>
 </blockquote>
 <p>Thread 对象的 start() 方法调用先行发生于此线程的每一个动作。</p>
-<div align="center"> <img src="/2020/03/06/Java/Java-%E5%B9%B6%E5%8F%91/6270c216-7ec0-4db7-94de-0003bce37cd2.png" width="380px"> </div><br>
+<div align="center"> <img src="pics/6270c216-7ec0-4db7-94de-0003bce37cd2.png" width="380px"> </div><br>
 
 <h3><span id="5-xian-cheng-jia-ru-gui-ze">5. 线程加入规则</span><a href="#5-xian-cheng-jia-ru-gui-ze" class="header-anchor">#</a></h3><blockquote>
 <p>Thread Join Rule</p>
 </blockquote>
 <p>Thread 对象的结束先行发生于 join() 方法返回。</p>
-<div align="center"> <img src="/2020/03/06/Java/Java-%E5%B9%B6%E5%8F%91/233f8d89-31d7-413f-9c02-042f19c46ba1.png" width="400px"> </div><br>
+<div align="center"> <img src="pics/233f8d89-31d7-413f-9c02-042f19c46ba1.png" width="400px"> </div><br>
 
 <h3><span id="6-xian-cheng-zhong-duan-gui-ze">6. 线程中断规则</span><a href="#6-xian-cheng-zhong-duan-gui-ze" class="header-anchor">#</a></h3><blockquote>
 <p>Thread Interruption Rule</p>
@@ -4124,7 +4124,7 @@
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Single</span></span>&#123;</span><br><span class="line">    <span class="comment">//private static Single instance;</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">volatile</span> Single instance;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="title">getInstance</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(instance == <span class="keyword">null</span>)&#123;                 <span class="comment">//(1)</span></span><br><span class="line">            <span class="keyword">synchronized</span>(Single<span class="class">.<span class="keyword">class</span>)</span>&#123;       <span class="comment">//(2)</span></span><br><span class="line">                <span class="keyword">if</span>(instance == <span class="keyword">null</span>)          <span class="comment">//(3)</span></span><br><span class="line">                instance = <span class="keyword">new</span> Single();      <span class="comment">//(4) !!!</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> instance;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>(1)处的检测不影响正确性，只是为了性能，避免频繁的加锁；<br>(2)是加锁放置两次初始化；<br>(3)是防止重复初始化；<br>(4)处的对象创建过程包含三个步骤：(a)分配内存；(b)初始化对象；(c)instance赋值；<br>在没有(1)的时候，代码是安全的，因为在对象被完全创建之前，另一个线程会等待加锁；<br>但是在加上(1)之后, 如果(b)和(c)重排序之后，可能导致另一个线程访问到未被初始化的对象；从而不进入加锁区域，直接返回未被初始化的对象，导致出错<br>因此以上代码中必须使用volatile限定instance，防止(b),(c)被重排序；</p>
 <p>更详细的单例模式见笔记：设计模式</p>
-<h1><span id="xian-cheng-zhuang-tai-zhuan-huan">线程状态转换</span><a href="#xian-cheng-zhuang-tai-zhuan-huan" class="header-anchor">#</a></h1><div align="center"> <img src="/2020/03/06/Java/Java-%E5%B9%B6%E5%8F%91/thread.png" width="600px"> </div><br>
+<h1><span id="xian-cheng-zhuang-tai-zhuan-huan">线程状态转换</span><a href="#xian-cheng-zhuang-tai-zhuan-huan" class="header-anchor">#</a></h1><div align="center"> <img src="pics/thread.png" width="600px"> </div><br>
 
 <h2><span id="xin-jian-new">新建（New）</span><a href="#xin-jian-new" class="header-anchor">#</a></h2><p>创建后尚未启动，尚未调用start()方法。</p>
 <h2><span id="ke-yun-xing-runnable">可运行（Runnable）</span><a href="#ke-yun-xing-runnable" class="header-anchor">#</a></h2><p>可能正在运行，也可能正在等待 CPU 时间片。</p>
@@ -4310,7 +4310,7 @@
 <p><strong>2.</strong> 对方法的同步是对方法设置ACC_SYNCHRONIZED标记。当方法调用时，调用指令将会检查方法的 ACC_SYNCHRONIZED 访问标志是否被设置，如果设置了，执行线程将先获取monitor，获取成功之后才能执行方法体，方法执行完后再释放monitor。在方法执行期间，其他任何线程都无法再获得同一个monitor对象。</p>
 <p>以上过程可以看出synchronized是可重入的，即同一个线程可以连续对同一个对象加锁；这样做的原因是为了避免死锁，比如递归调用；</p>
 <h2><span id="synchronized-you-hua">synchronized优化</span><a href="#synchronized-you-hua" class="header-anchor">#</a></h2><p>Java对象都有一个对象头字段，里面包了MarkWord,类型指针，数字长度(可选)等信息，其中MarkWord就记录了synchronized锁的信息；<br>从JDK5引入了现代操作系统新增加的CAS原子操作（ JDK5中并没有对synchronized关键字做优化，而是体现在J.U.C中，所以在该版本concurrent包有更好的性能 ），从JDK6开始，就对synchronized的实现机制进行了较大调整，包括使用JDK5引进的CAS自旋之外，还增加了自适应的CAS自旋、锁消除、锁粗化、偏向锁、轻量级锁这些优化策略。由于此关键字的优化使得性能极大提高，同时语义清晰、操作简单、无需手动关闭，所以推荐在允许的情况下尽量使用此关键字，同时在性能上此关键字还有优化的空间。</p>
-<div align="center"> <img src="/2020/03/06/Java/Java-%E5%B9%B6%E5%8F%91/11.png"> </div><br>
+<div align="center"> <img src="pics/11.png"> </div><br>
 
 <p>锁主要存在四种状态，依次是：无锁状态、偏向锁状态、轻量级锁状态、重量级锁状态，锁可以从偏向锁升级到轻量级锁，再升级的重量级锁。但是锁的升级是单向的，也就是说只能从低到高升级，不会出现锁的降级。</p>
 <pre><code>在 JDK 1.6 中默认是开启偏向锁和轻量级锁的，可以通过-XX:-UseBiasedLocking来禁用偏向锁。</code></pre><ul>
@@ -4328,7 +4328,7 @@
 <h3><span id="synchronied-suo-zhuang-tai-zong-jie">synchronied锁状态总结：</span><a href="#synchronied-suo-zhuang-tai-zong-jie" class="header-anchor">#</a></h3><pre><code>1. 如果是单线程使用，那偏向锁毫无疑问代价最小，并且它就能解决问题，连CAS都不用做，仅仅在内存中比较下对象头就可以了；
 2. 如果出现了其他线程竞争，则偏向锁就会升级为轻量级锁；
 3. 如果其他线程通过一定次数的CAS尝试没有成功，则进入重量级锁；</code></pre><p>在第3种情况下进入同步代码块就 要做偏向锁建立、偏向锁撤销、轻量级锁建立、升级到重量级锁，最终还是得靠重量级锁来解决问题，那这样的代价就比直接用重量级锁要大不少了。所以使用哪种技术，一定要看其所处的环境及场景，在绝大多数的情况下，偏向锁是有效的，这是基于HotSpot作者发现的“大多数锁只会由同一线程并发申请”的经验规律。</p>
-<div align="center"> <img src="/2020/03/06/Java/Java-%E5%B9%B6%E5%8F%91/10.png"> </div><br>
+<div align="center"> <img src="pics/10.png"> </div><br>
 
 <p>偏向锁和轻量级锁都是依赖CAS操作来获取锁，因此没有内核态的切换，但是会消耗CPu资源空转，因此在有很多竞争的情况下，会升级为重量级锁；<br>重量级锁是依赖管城实现的(Monitor)，因此所有的操作都需要和对象绑定，依赖于JVM，wait(), notify()等操作必须实现在对象上，也就是Object()中；</p>
 <h3><span id="qi-ta-you-hua">其它优化：</span><a href="#qi-ta-you-hua" class="header-anchor">#</a></h3><ul>
@@ -4426,7 +4426,7 @@ String 是一个不可变的类，编译器会对 String 的拼接自动优化�
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ThreadLocalExample1</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        ThreadLocal threadLocal1 = <span class="keyword">new</span> ThreadLocal();</span><br><span class="line">        ThreadLocal threadLocal2 = <span class="keyword">new</span> ThreadLocal();</span><br><span class="line">        Thread thread1 = <span class="keyword">new</span> Thread(() -&gt; &#123;</span><br><span class="line">            threadLocal1.set(<span class="number">1</span>);</span><br><span class="line">            threadLocal2.set(<span class="number">1</span>);</span><br><span class="line">        &#125;);</span><br><span class="line">        Thread thread2 = <span class="keyword">new</span> Thread(() -&gt; &#123;</span><br><span class="line">            threadLocal1.set(<span class="number">2</span>);</span><br><span class="line">            threadLocal2.set(<span class="number">2</span>);</span><br><span class="line">        &#125;);</span><br><span class="line">        thread1.start();</span><br><span class="line">        thread2.start();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>它所对应的底层结构图为：</p>
-<div align="center"> <img src="/2020/03/06/Java/Java-%E5%B9%B6%E5%8F%91/6782674c-1bfe-4879-af39-e9d722a95d39.png" width="500px"> </div><br>
+<div align="center"> <img src="pics/6782674c-1bfe-4879-af39-e9d722a95d39.png" width="500px"> </div><br>
 
 <p>每个 Thread 都有一个 ThreadLocal.ThreadLocalMap 对象。</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* ThreadLocal values pertaining to this thread. This map is maintained</span></span><br><span class="line"><span class="comment"> * by the ThreadLocal class. */</span></span><br><span class="line">ThreadLocal.ThreadLocalMap threadLocals = <span class="keyword">null</span>;</span><br></pre></td></tr></table></figure>
@@ -4490,7 +4490,7 @@ String 是一个不可变的类，编译器会对 String 的拼接自动优化�
 
 <h2><span id="countdownlatch">CountDownLatch</span><a href="#countdownlatch" class="header-anchor">#</a></h2><p><strong>用来控制一个线程等待多个线程</strong>。</p>
 <p>维护了一个计数器 cnt，每次调用 countDown() 方法会让计数器的值减 1，减到 0 的时候，那些因为调用 await() 方法而在等待的线程就会被唤醒。</p>
-<div align="center"> <img src="/2020/03/06/Java/Java-%E5%B9%B6%E5%8F%91/ba078291-791e-4378-b6d1-ece76c2f0b14.png" width="300px"> </div><br>
+<div align="center"> <img src="pics/ba078291-791e-4378-b6d1-ece76c2f0b14.png" width="300px"> </div><br>
 
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CountdownLatchExample</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> InterruptedException </span>&#123;</span><br><span class="line">        <span class="keyword">final</span> <span class="keyword">int</span> totalThread = <span class="number">10</span>;</span><br><span class="line">        CountDownLatch countDownLatch = <span class="keyword">new</span> CountDownLatch(totalThread);</span><br><span class="line">        ExecutorService executorService = Executors.newCachedThreadPool();</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; totalThread; i++) &#123;</span><br><span class="line">            executorService.execute(() -&gt; &#123;</span><br><span class="line">                System.out.print(<span class="string">"run.."</span>);</span><br><span class="line">                countDownLatch.countDown();</span><br><span class="line">            &#125;);</span><br><span class="line">        &#125;</span><br><span class="line">        countDownLatch.await();</span><br><span class="line">        System.out.println(<span class="string">"end"</span>);</span><br><span class="line">        executorService.shutdown();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
@@ -4502,7 +4502,7 @@ String 是一个不可变的类，编译器会对 String 的拼接自动优化�
 <p>CyclicBarrier 有两个构造函数，其中 parties 指示计数器的初始值，barrierAction 在所有线程都到达屏障的时候会执行一次。</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="title">CyclicBarrier</span><span class="params">(<span class="keyword">int</span> parties, Runnable barrierAction)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (parties &lt;= <span class="number">0</span>) <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException();</span><br><span class="line">    <span class="keyword">this</span>.parties = parties;</span><br><span class="line">    <span class="keyword">this</span>.count = parties;</span><br><span class="line">    <span class="keyword">this</span>.barrierCommand = barrierAction;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="title">CyclicBarrier</span><span class="params">(<span class="keyword">int</span> parties)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">this</span>(parties, <span class="keyword">null</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<div align="center"> <img src="/2020/03/06/Java/Java-%E5%B9%B6%E5%8F%91/f71af66b-0d54-4399-a44b-f47b58321984.png" width="300px"> </div><br>
+<div align="center"> <img src="pics/f71af66b-0d54-4399-a44b-f47b58321984.png" width="300px"> </div><br>
 
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CyclicBarrierExample</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">final</span> <span class="keyword">int</span> totalThread = <span class="number">10</span>;</span><br><span class="line">        CyclicBarrier cyclicBarrier = <span class="keyword">new</span> CyclicBarrier(totalThread);</span><br><span class="line">        ExecutorService executorService = Executors.newCachedThreadPool();</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; totalThread; i++) &#123;</span><br><span class="line">            executorService.execute(() -&gt; &#123;</span><br><span class="line">                System.out.print(<span class="string">"before.."</span>);</span><br><span class="line">                <span class="keyword">try</span> &#123;</span><br><span class="line">                    cyclicBarrier.await();</span><br><span class="line">                &#125; <span class="keyword">catch</span> (InterruptedException | BrokenBarrierException e) &#123;</span><br><span class="line">                    e.printStackTrace();</span><br><span class="line">                &#125;</span><br><span class="line">                System.out.print(<span class="string">"after.."</span>);</span><br><span class="line">            &#125;);</span><br><span class="line">        &#125;</span><br><span class="line">        executorService.shutdown();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
@@ -4614,7 +4614,7 @@ String 是一个不可变的类，编译器会对 String 的拼接自动优化�
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ForkJoinPool</span> <span class="keyword">extends</span> <span class="title">AbstractExecutorService</span></span></span><br></pre></td></tr></table></figure>
 
 <p>ForkJoinPool 实现了工作窃取算法来提高 CPU 的利用率。每个线程都维护了一个双端队列，用来存储需要执行的任务。工作窃取算法允许空闲的线程从其它线程的双端队列中窃取一个任务来执行。窃取的任务必须是最晚的任务，避免和队列所属线程发生竞争。例如下图中，Thread2 从 Thread1 的队列中拿出最晚的 Task1 任务，Thread1 会拿出 Task2 来执行，这样就避免发生竞争。但是如果队列中只有一个任务时还是会发生竞争。</p>
-<div align="center"> <img src="/2020/03/06/Java/Java-%E5%B9%B6%E5%8F%91/e42f188f-f4a9-4e6f-88fc-45f4682072fb.png" width="300px"> </div><br>
+<div align="center"> <img src="pics/e42f188f-f4a9-4e6f-88fc-45f4682072fb.png" width="300px"> </div><br>
 
 <h1><span id="xian-cheng-chi">线程池</span><a href="#xian-cheng-chi" class="header-anchor">#</a></h1><p>使用线程池的好处</p>
 <ul>
@@ -4622,7 +4622,7 @@ String 是一个不可变的类，编译器会对 String 的拼接自动优化�
 <li>提高响应速度：任务到达时，不需要新建线程执行，能够得到立即执行</li>
 <li>提高线程的可管理性：线程如果随意创建，会消耗系统资源，也会降低系统的稳定性，线程池可以帮助管理</li>
 </ul>
-<h2><span id="xian-cheng-chi-zhi-xing-liu-cheng">线程池执行流程</span><a href="#xian-cheng-chi-zhi-xing-liu-cheng" class="header-anchor">#</a></h2><div align="center"> <img src="/2020/03/06/Java/Java-%E5%B9%B6%E5%8F%91/线程池执行.bmp" "> </div><br>
+<h2><span id="xian-cheng-chi-zhi-xing-liu-cheng">线程池执行流程</span><a href="#xian-cheng-chi-zhi-xing-liu-cheng" class="header-anchor">#</a></h2><div align="center"> <img src="pics/线程池执行.bmp" "> </div><br>
 
 <h2><span id="xian-cheng-chi-de-zeng-chang-ce-lue">线程池的增长策略</span><a href="#xian-cheng-chi-de-zeng-chang-ce-lue" class="header-anchor">#</a></h2><p>当一个任务提交到线程池时：<br>1.如果此时线程池中的线程数量小于corePoolSize,即使线程池中的线程处于空闲状态，也要直接新建线程来处理被添加的任务。</p>
 <p>2.如果线程池中的线程数量等于corePoolSize, 则找到空闲线程进行执行；如果所有线程都相处与运行状态，则查看任务队列是否已满，如果队列不满，则将任务放入队列。</p>

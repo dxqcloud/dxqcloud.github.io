@@ -24,14 +24,14 @@
 <meta property="og:site_name" content="欢迎来到我的博客！">
 <meta property="og:description" content="数据类型 基本类型 类型初始化 包装类型 缓存池   String 概览 不可变的好处 String, StringBuffer and StringBuilder String Pool new String(“abc”)   enum枚举类型 运算 &#x3D;&#x3D; 逻辑运算符 &amp;&amp; 位运算 移位操作符 参数传递 float 与 double 隐式类型转换 break， contin">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://yoursite.com/2020/03/06/Java/Java_%E5%9F%BA%E7%A1%80/9112288f-23f5-4e53-b222-a46fdbca1603.png">
-<meta property="og:image" content="http://yoursite.com/2020/03/06/Java/Java_%E5%9F%BA%E7%A1%80/PPjwP.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/06/Java/Java_%E5%9F%BA%E7%A1%80/pics/9112288f-23f5-4e53-b222-a46fdbca1603.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/06/Java/Java_%E5%9F%BA%E7%A1%80/pics/PPjwP.png">
 <meta property="og:image" content="https://cyc-1256109796.cos.ap-guangzhou.myqcloud.com/%E5%85%AC%E4%BC%97%E5%8F%B7.jpg">
 <meta property="article:published_time" content="2020-03-06T10:52:57.124Z">
 <meta property="article:modified_time" content="2019-10-28T12:21:47.582Z">
 <meta property="article:author" content="DXQ">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://yoursite.com/2020/03/06/Java/Java_%E5%9F%BA%E7%A1%80/9112288f-23f5-4e53-b222-a46fdbca1603.png">
+<meta name="twitter:image" content="http://yoursite.com/2020/03/06/Java/Java_%E5%9F%BA%E7%A1%80/pics/9112288f-23f5-4e53-b222-a46fdbca1603.png">
 
 <link rel="canonical" href="http://yoursite.com/2020/03/06/Java/Java_%E5%9F%BA%E7%A1%80/">
 
@@ -393,7 +393,7 @@
 <p>因为 String 的 hash 值经常被使用，例如 String 用做 HashMap 的 key。不可变的特性可以使得 hash 值也不可变，因此只需要进行一次计算。</p>
 <p><strong>2. String Pool 的需要</strong> </p>
 <p>如果一个 String 对象已经被创建过了，那么就会从 String Pool 中取得引用。只有 String 是不可变的，才可能使用 String Pool。</p>
-<div align="center"> <img src="/2020/03/06/Java/Java_%E5%9F%BA%E7%A1%80/9112288f-23f5-4e53-b222-a46fdbca1603.png" width="300px"> </div><br>
+<div align="center"> <img src="pics/9112288f-23f5-4e53-b222-a46fdbca1603.png" width="300px"> </div><br>
 
 <p><strong>3. 安全性</strong> </p>
 <p>String 经常作为参数，String 不可变性可以保证参数不可变。例如在作为网络连接参数的情况下如果 String 是可变的，那么在网络连接过程中，String 被改变，改变 String 对象的那一方以为现在连接的是其它主机，而实际情况却不一定是。</p>
@@ -833,7 +833,7 @@
 执行jsr指令跳到finally语句里执行；
 执行完finally语句后，返回之前保存在局部变量表里的值。
 如果try，finally语句里均有return，忽略try的return，而使用finally的return.</code></pre><p>注意：在finally中改变返回值的做法是不好的，因为如果存在finally代码块，try中的return语句不会立马返回调用者，而是记录下返回值待finally代码块执行完毕之后再向调用者返回其值，然后如果在finally中修改了返回值，就会返回修改后的值。显然，在finally中返回或者修改返回值会对程序造成很大的困扰，C#中直接用编译错误的方式来阻止程序员干这种龌龊的事情，Java中也可以通过提升编译器的语法检查级别来产生警告或错误，Eclipse中可以在如图所示的地方进行设置，强烈建议将此项设置为编译错误。</p>
-<div align="center"> <img src="/2020/03/06/Java/Java_%E5%9F%BA%E7%A1%80/PPjwP.png" width="600"> </div><br>
+<div align="center"> <img src="pics/PPjwP.png" width="600"> </div><br>
 
 <ul>
 <li><a href="https://www.tianmaying.com/tutorial/Java-Exception" target="_blank" rel="noopener">Java 入门之异常处理</a></li>
